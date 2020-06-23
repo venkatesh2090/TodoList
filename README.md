@@ -3,7 +3,7 @@
 This is a server made in nodejs for managing tasks using TODO Lists
 
 ## Pre-build requirements
-- NodeJS
+- nodeJS
 - npm
 
 Before running the scripts, please install the dependencies using 
@@ -20,7 +20,7 @@ npm install
 - Then it would transpile the ES6 compaible code using babel
 - Then run the server using express
 
-# Run development build
+## Run development build
 
 - ``` bash
   npx nodemon
