@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  :root {
+	--side-menu-width: 100%;
+  }
+  #task {
+		margin-bottom: 0.5em;
+  }
+}
+@media (min-width: 420px) and (max-width: 800px) {
+  :root {
+	--side-menu-width: 50%;
+  }
+  #task {
+		margin-right: 0.5em;
+  }
+}
+
+@media (min-width: 800px) {
+  :root {
+	--side-menu-width: 15%;
+  }
+  #task {
+		margin-right: 0.5em;
+  }
+}
+
+a {
+  color: #00B7FF;
+}
+
+.done h4 {
+  text-decoration: line-through;
+}
+.ongoing img:hover {
+  cursor: pointer;  
+}
+
+@keyframes slide-open {
+  from {
+	width: 0%;
+  }
+
+  to {
+	width: var(--side-menu-width);
+  }
+}
+
+.navigationBar{
+  position: sticky;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  width: 100%;
+  border-bottom-style: solid;
+  border-bottom-color: #e0e0d1;
+  border-bottom-width: 1px; 
+}
+
+.navigationBar h3 {
+  margin-left: 1em;
+}
+
+#side-menu {
+  width: 0%;
+  overflow: hidden;
+  background: #e0e0d1;
+  position: fixed;
+  left: 0;
+  z-index: 1;
+}
+
+#side-menu.open {
+  width: var(--side-menu-width);
+  animation-name: slide-open;
+  animation-duration: 1s;
+}
+
+#side-menu-button:hover {
+  cursor: pointer;
+}
+
+#side-menu-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#side-menu-button div {
+  height: 5px;
+  width: 100%;
+  background-color: black;
+  border-radius: 3px;
+}
+
+div.remove {
+  justify-content: space-evenly;
+  width: 40px;
+  height: 1rem;
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
+
+div.remove:hover {
+  cursor: pointer;
+}
+
+div.remove div {
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+}
