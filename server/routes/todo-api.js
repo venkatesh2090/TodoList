@@ -17,7 +17,6 @@ router.post('/add', async function(req, res, next) {
 });
 
 router.get('/done/:id', async function(req, res, next) {
-  console.log(req.cookies.user);
   await taskDone(req.params.id);
   res.status(202).send();
 });
