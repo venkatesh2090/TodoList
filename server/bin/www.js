@@ -7,8 +7,11 @@
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
+import { createTables } from '../database/getTasks.js';
+import path from 'path';
 
 const debug = debugLib('express-example:server');
+
 
 /**
  * Get port from environment and store in Express.
@@ -16,6 +19,12 @@ const debug = debugLib('express-example:server');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+
+/**
+ * Create database tables
+ */
+
+createTables(path.join(__dirname, '../../create_db.sql'));
 
 /**
  * Create HTTP server.

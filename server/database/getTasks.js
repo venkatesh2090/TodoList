@@ -1,4 +1,5 @@
 import _pgp from 'pg-promise';
+import fs from 'fs';
 
 const tableName = 'todos';
 const pgp = _pgp({
@@ -46,4 +47,12 @@ export async function taskDone(id) {
 
 export async function deleteDone(userId) {
 	await db.none(`DELETE FROM ${tableName} WHERE is_done AND user_id = $1`, [userId]);
+}
+
+export function createTables(pathToSQL) {
+  console.log(pathToSQL);
+  fs.readFile(pathToSQL, 'utf8', async (err, data) => {
+	if (err) throw err;
+	await db.multi(data);
+  });
 }

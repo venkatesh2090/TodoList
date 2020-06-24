@@ -1,21 +1,17 @@
 BEGIN;
 
-CREATE TABLE todo_users (
-id SERIAL,
+CREATE TABLE IF NOT EXISTS todo_users (
+id SERIAL PRIMARY KEY,
 username VARCHAR,
 email VARCHAR,
 password VARCHAR);
  
-ALTER TABLE todo_users ADD PRIMARY KEY (id);
 
-CREATE TABLE todos (
-id SERIAL,
+CREATE TABLE IF NOT EXISTS todos (
+id SERIAL PRIMARY KEY,
 todo TEXT,
 is_done BOOLEAN DEFAULT FALSE,
-user_id INTEGER);
-
-ALTER TABLE todos ADD PRIMARY KEY (id);
-
-ALTER TABLE todos ADD FOREIGN KEY (user_id) REFERENCES todo_users (id);
+user_id INTEGER,
+FOREIGN KEY (user_id) REFERENCES todo_users (id));
 
 COMMIT;
