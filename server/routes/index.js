@@ -13,8 +13,10 @@ router.post('/', async function(req, res, next) {
   const task = req.body.task;
 	const spaceRe = /^ *$/;
 
+	if (!spaceRe.test(task) && req.cookies)
+		await insertTask(task, req.cookies.id);
 	if (!spaceRe.test(task))
-		await insertTask(task, 2);
+		await insertTask(task, 1);
 
 	res.redirect('/');
 });
@@ -22,9 +24,9 @@ router.post('/', async function(req, res, next) {
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   if (!req.cookies.user) {
-	res.cookie('user', '2');
+	res.cookie('user', '1');
   }
-  var result = await getAllTasks(2);
+  var result = await getAllTasks(req.cookies.user);
   res.render('index', { 
 	title: 'TODO List',
 	tasks: result

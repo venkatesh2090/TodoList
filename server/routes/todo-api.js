@@ -11,7 +11,7 @@ router.get('/delete/:id', async function(req, res, next){
 });
 
 router.post('/add', async function(req, res, next) {
-  await insertTask(req.body.task, 2)
+  await insertTask(req.body.task, req.cookies.user)
 	.catch(err => console.log(err));
   res.status(202).send();
 });
@@ -23,7 +23,7 @@ router.get('/done/:id', async function(req, res, next) {
 });
 
 router.get('/deleteDone', async function(req, res, next) {
-	await deleteDone(2);
+	await deleteDone(req.cookies.user);
 	res.status(202).send();
 });
 
