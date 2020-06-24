@@ -9,8 +9,12 @@ const pgp = _pgp({
   error(err, e) {
 	if (e.cn)
 	  console.log('Connection Error to Database');
-	else if (e.ctx)
+	if (e.ctx)
 	  console.log('Error during transaction');
+  },
+
+  query(e) {
+	console.log(`QUERY: ${e.query}`);
   }
 });
 
@@ -19,7 +23,7 @@ const config = {
 	port: 5432,
 	database: 'todo_list',
 	user: 'postgres',
-	password: 'postgres'
+	password: 'trust'
 };
 
 const db = pgp(config);
