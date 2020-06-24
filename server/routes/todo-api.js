@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import {deleteTask, insertTask, taskDone, deleteDone} from './database/getTasks';
+import {deleteTask, insertTask, taskDone, deleteDone} from '../database/getTasks';
 
 router.get('/delete/:id', async function(req, res, next){
   const id = req.params.id;
@@ -27,4 +27,4 @@ router.get('/deleteDone', async function(req, res, next) {
 	res.status(202).send();
 });
 
-module.exports = router;
+export default router;
