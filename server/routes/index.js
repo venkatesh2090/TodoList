@@ -1,12 +1,15 @@
 import express from 'express';
 const router = express.Router();
 
-import {getAllTasks, insertTask} from './database/getTasks';
+import { getAllTasks, insertTask } from '../database/getTasks';
 import createError from 'http-errors';
 
-// import for babel promises
-import "core-js";
-import "regenerator-runtime/runtime";
+/**
+ * Required for babel support for 
+ * promses
+ */
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 
 router.post('/', async function(req, res, next) {
