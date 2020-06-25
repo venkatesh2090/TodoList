@@ -1,11 +1,3 @@
-import template from './test.pug';
+import './style.css';
 
-const locals  = {
-	users: [ 'venkatesh',	'harish' ]
-};
-
-document.querySelector('body').innerHTML = template(locals);
-
-window.onload = event => {
-	console.log(template(locals));
-};
+console.log('js');
