@@ -1,5 +1,3 @@
-import './style.css';
-
 async function doneElement(element) {
   const id = element.getAttribute('id');
   // TODO: implement delete here
