@@ -16,8 +16,6 @@ router.post('/', async function(req, res, next) {
   const task = req.body.task;
 	const spaceRe = /^ *$/;
 
-	if (!spaceRe.test(task) && req.cookies)
-		await insertTask(task, req.cookies.id);
 	if (!spaceRe.test(task))
 		await insertTask(task, 1);
 
