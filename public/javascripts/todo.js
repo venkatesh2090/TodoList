@@ -1,7 +1,5 @@
 async function doneElement(element) {
   const id = element.getAttribute('id');
-  // TODO: implement delete here
-  console.log(`Clicked ${id}`);
 
   const url = `/api/done/${id}`;
   const config = {
