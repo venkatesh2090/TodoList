@@ -32,6 +32,15 @@ app.use(cookieSession({
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.use(function (req, res, next) {
+  const regEx = /^(\/(login|static))/
+
+  if (req.session.isNew && !regEx.test(req.path)) {
+	res.redirect('/login');
+  } else {
+	next();
+  }
+});
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);

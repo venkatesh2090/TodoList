@@ -20,20 +20,15 @@ router.post('/', async function(req, res, next) {
   }
 
   res.redirect('/');
-
 });
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  if (req.session.isNew) 
-	res.redirect('/login');
-  else {
-	var result = await getAllTasks(req.session.user);
-	res.render('index', {
-	  title: 'TODO List',
-	  tasks: result
-	});
-  }
+  var result = await getAllTasks(req.session.user);
+  res.render('index', {
+	title: 'TODO List',
+	tasks: result
+  });
 });
 
 export default router;
