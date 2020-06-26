@@ -46,7 +46,19 @@ export async function taskDone(id) {
 }
 
 export async function deleteDone(userId) {
-	await db.none(`DELETE FROM ${tableName} WHERE is_done AND user_id = $1`, [userId]);
+  await db.none(`DELETE FROM ${tableName} WHERE is_done AND user_id = $1`, [userId]);
+}
+
+export async function userExists(username) {
+  return await db.one('SELECT COUNT(*) = 1 AS exists FROM todo_users WHERE username = $1', [username]);
+}
+
+export async function insertUser(username) {
+  await db.none('INSERT INTO todo_users (username, password, email) VALUES ($1, $2, $3)', [username, 'pass', 'venka']);
+}
+
+export async function getUserId(username) {
+  return await db.any('SELECT id FROM todo_users WHERE username = $1', [username]);
 }
 
 export function createTables(pathToSQL) {
