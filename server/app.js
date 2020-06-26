@@ -1,10 +1,16 @@
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
+
 import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
+import Keygrip from 'keygrip';
+
 import logger from 'morgan';
+
 import indexRouter from './routes/index';
 import apiRouter from './routes/todo-api';
+import loginRouter from './routes/login';
 
 var app = express();
 
@@ -13,13 +19,22 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
+app.use(cookieSession({
+  sameSite: true,
+  name: 'SID',
+  keys: Keygrip(['mySecret'], 'sha256'),
+}));
+
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
