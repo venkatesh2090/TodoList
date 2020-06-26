@@ -63,4 +63,7 @@ window.onload = function(event) {
 	console.log('task on focus');
   });
 
+  document.getElementById('logout').addEventListener('click', event => {
+	window.location = '/logout';
+  });
 }
