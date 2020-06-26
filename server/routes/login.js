@@ -1,27 +1,39 @@
 import express from 'express';
 const router = express.Router();
-import { userExists, insertUser, getUserId } from '../database/getTasks';
+import { userExists, insertUser, getUser } from '../database/getTasks';
 
 router.get('/', function (req, res, next) {
-  res.render('login');
+  res.render('login', {
+	title: 'Login',
+	failed: false,
+	notExists: false
+  });
 });
 
 router.post('/', async function (req, res, next) {
   const username = req.body.user;
 
   let queryRes = await userExists(username);
-	console.log(JSON.stringify(queryRes));
-	
 
   if (queryRes.exists) {
-		queryRes = await getUserId(username);
-    req.session.user = queryRes[0].id;
-    res.redirect('/');
+    queryRes = await getUser(username);
+    if (queryRes.password == req.body.password) {
+      req.session.user = queryRes.id;
+      res.redirect('/');
+    } else {
+      res.render('login', {
+		title: 'Login',
+        failed: true,
+		notExists: false
+      });
+    }
   } else {
-		res.render('login', {
-			notExists: true
-		});
-	}
+    res.render('login', {
+	  title: 'Login',
+	  failed: false,
+      notExists: true
+    });
+  }
 });
 
 export default router;
