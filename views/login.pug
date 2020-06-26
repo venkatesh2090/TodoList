@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	div.container-fluid.w-100.h-100.d-flex.flex-column.align-items-center.justify-content-center
+		form.w-25(method='POST' action='/login')
+			div.form-group
+				label(for='user') Username
+				input.form-control(type='text' name='user')
+				if failed
+					small.form-text.text-danger Wrong credentials
+				if notExists
+					small.form-text.text-danger User doesn't exist
+			div.form-group
+				input.btn.btn-primary.form-control(type='submit' value='Submit')
+	
+	script(src='/javascripts/login.js')
