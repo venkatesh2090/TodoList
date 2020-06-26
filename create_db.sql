@@ -1,0 +1,17 @@
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS todo_users (
+id SERIAL PRIMARY KEY,
+username VARCHAR UNIQUE,
+email VARCHAR,
+password VARCHAR);
+ 
+
+CREATE TABLE IF NOT EXISTS todos (
+id SERIAL PRIMARY KEY,
+todo TEXT,
+is_done BOOLEAN DEFAULT FALSE,
+user_id INTEGER NOT NULL,
+FOREIGN KEY (user_id) REFERENCES todo_users (id));
+
+COMMIT;

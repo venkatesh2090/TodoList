@@ -1,31 +1,31 @@
 import express from 'express';
 const router = express.Router();
 
-import {getAllTasks, insertTask} from './database/getTasks';
+import { getAllTasks, insertTask } from '../database/getTasks';
 import createError from 'http-errors';
 
-// import for babel promises
-import "core-js";
-import "regenerator-runtime/runtime";
-
+/**
+ * Required for babel support for 
+ * promses
+ */
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 router.post('/', async function(req, res, next) {
   const task = req.body.task;
-	const spaceRe = /^ *$/;
+  const regEx = /^ *$/;
 
-	if (!spaceRe.test(task))
-		await insertTask(task, 2);
+  if (!regEx.test(task)) {
+	await insertTask(task, req.session.user);
+  }
 
-	res.redirect('/');
+  res.redirect('/');
 });
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  if (!req.cookies.user) {
-	res.cookie('user', '2');
-  }
-  var result = await getAllTasks(2);
-  res.render('index', { 
+  var result = await getAllTasks(req.session.user);
+  res.render('index', {
 	title: 'TODO List',
 	tasks: result
   });

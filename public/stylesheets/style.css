@@ -49,31 +49,12 @@ a {
   }
 }
 
-.navigationBar{
-  position: sticky;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
-  width: 100%;
-  border-bottom-style: solid;
-  border-bottom-color: #e0e0d1;
-  border-bottom-width: 1px; 
-}
-
-.navigationBar h3 {
-  margin-left: 1em;
-}
-
 #side-menu {
   width: 0%;
   overflow: hidden;
   background: #e0e0d1;
   position: fixed;
   left: 0;
-  z-index: 1;
 }
 
 #side-menu.open {
@@ -120,4 +101,8 @@ div.remove div {
   width: 100%;
   height: 5px;
   border-radius: 3px;
+}
+
+.navigationBar {
+  position: sticky;
 }

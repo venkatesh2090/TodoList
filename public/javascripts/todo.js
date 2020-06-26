@@ -1,7 +1,5 @@
 async function doneElement(element) {
   const id = element.getAttribute('id');
-  // TODO: implement delete here
-  console.log(`Clicked ${id}`);
 
   const url = `/api/done/${id}`;
   const config = {
@@ -65,4 +63,7 @@ window.onload = function(event) {
 	console.log('task on focus');
   });
 
+  document.getElementById('logout').addEventListener('click', event => {
+	window.location = '/logout';
+  });
 }
