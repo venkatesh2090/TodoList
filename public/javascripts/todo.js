@@ -59,14 +59,22 @@ async function addList() {
 	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 }
 
-function changeList(groupId) {
+async function changeList(groupId) {
 	window.sessionStorage.setItem('groupId', groupId);
 	document.querySelector('#groups-container .active').className = '';
+	const url = `/api/get/tasks/${groupId}`;
 
 	const activeDiv = document.querySelector(`#groups-container div[gid="${groupId}"]`);
 	if (activeDiv != null){
 		activeDiv.classList.add('active');
 	}
+
+	const req = new Request(url, {
+		method: 'GET'
+	});
+
+	fetch(req).then(res => res.json())
+		.then(res => console.log(res));
 };
 
 window.onload = function(event) {
@@ -107,9 +115,9 @@ window.onload = function(event) {
 	}
 
 	document.getElementById('groups-container').childNodes.forEach(function (e, i) {
-		e.onclick = function (event) {
+		e.onclick = async function (event) {
 			console.log(e.getAttribute('gid'));
-			changeList(e.getAttribute('gid'));
+			await changeList(e.getAttribute('gid'));
 		}
 
 		if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
