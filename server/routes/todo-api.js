@@ -3,8 +3,10 @@ const router = express.Router();
 
 import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
 import addRouter from './add/add';
+import getRouter from './add/get';
 
 router.use('/add', addRouter);
+router.use('/get', getRouter);
 
 router.get('/delete/:id', async function (req, res, next) {
 	const id = req.params.id;
