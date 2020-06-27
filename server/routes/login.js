@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { userExists, insertUser, getUser } from '../database/getTasks';
+import { userExists, getUser } from '../database/getTasks';
 
 router.get('/', function (req, res, next) {
   res.render('login', {
@@ -24,6 +24,7 @@ router.post('/', async function (req, res, next) {
       res.render('login', {
 		title: 'Login',
         failed: true,
+		logout: false,
 		notExists: false
       });
     }
