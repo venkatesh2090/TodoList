@@ -36,8 +36,8 @@ export async function getAllTasks(userId) {
 	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
 }
 
-export function insertTask(task, userId) {
-	return db.none(`INSERT INTO ${todoTable} (todo, user_id) VALUES ($1, $2)`, [task, userId]);
+export function insertTask(task, userId, groupId) {
+	return db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
 }
 
 export async function deleteTask(id) {
