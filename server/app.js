@@ -12,6 +12,7 @@ import indexRouter from './routes/index';
 import apiRouter from './routes/todo-api';
 import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
+import signupRouter from './routes/signup';
 
 var app = express();
 
@@ -32,10 +33,9 @@ app.use(cookieSession({
 }));
 
 app.use('/static', express.static(path.join(__dirname, '../public')));
-app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(function (req, res, next) {
-  const regEx = /^(\/(login|static))/
+  const regEx = /^(\/(login|static|signup))/
 
   if (req.session.isNew && !regEx.test(req.path)) {
 	res.redirect('/login');
@@ -47,6 +47,7 @@ app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/signup', signupRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
