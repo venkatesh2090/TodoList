@@ -1,3 +1,3 @@
-document.onclick = function (event) {
+document.getElementById('signup') = function (event) {
 	window.location = '/signup';
 }
