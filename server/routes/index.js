@@ -16,7 +16,7 @@ router.post('/', async function (req, res, next) {
 	const regEx = /^ *$/;
 
 	if (!regEx.test(task)) {
-		await insertTask(task, req.session.user);
+		await insertTask(task, req.session.user, 1);
 	}
 
 	res.redirect('/');
@@ -26,6 +26,7 @@ router.post('/', async function (req, res, next) {
 router.get('/', async function (req, res, next) {
 	var todos = await getAllTasks(req.session.user);
 	var groups = await getGroupsFromUserId(req.session.user);
+
 	res.render('index', {
 		title: 'TODO List',
 		tasks: todos,
