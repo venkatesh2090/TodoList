@@ -73,7 +73,7 @@ export async function insertTodoGroup(userId, groupName) {
 }
 
 export async function getGroupsFromUserId(userId) {
-	return await db.any(`SELECT g.id, g.group_name FROM ${todoGroups} g WHERE user_id = $1`, [userId]);
+	return await db.any(`SELECT g.id, g.group_name FROM ${todoGroups} g WHERE user_id = $1 ORDER BY g.id ASC`, [userId]);
 }
 
 export function createTables(pathToSQL) {
