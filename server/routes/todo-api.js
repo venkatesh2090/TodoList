@@ -1,20 +1,15 @@
 import express from 'express';
 const router = express.Router();
 
-import { deleteTask, insertTask, taskDone, deleteDone } from '../database/getTasks';
+import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
+import addRouter from './add/insert.js';
+
+router.use('/add', addRouter);
 
 router.get('/delete/:id', async function (req, res, next) {
 	const id = req.params.id;
 
 	await deleteTask(id);
-	res.status(202).send();
-});
-
-router.post('/add', async function (req, res, next) {
-	const userId = req.session.user;
-	if (userId != null || userId != undefined)
-		await insertTask(req.body.task, userId)
-			.catch(err => console.log(err));
 	res.status(202).send();
 });
 
