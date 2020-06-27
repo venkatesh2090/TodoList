@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
-import addRouter from './add/insert.js';
+import addRouter from './add/add';
 
 router.use('/add', addRouter);
 
