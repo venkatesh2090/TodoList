@@ -32,11 +32,38 @@ async function deleteDone() {
 
 }
 
+async function addList() {
+	const url = '/api/add/group';
+
+	const req = new Request(url, {
+		method: 'POST',
+		headers: new Headers({
+			'Content-Type': 'application/json'
+		}),
+		body: JSON.stringify({
+			group: document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value
+		})
+	});
+
+	const res = await fetch(req).then(res => res.json());
+
+	let group = document.createElement('div');
+	group.setAttribute('gid', res.groupId);
+
+	let name = document.createElement('p');
+	name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
+
+	group.appendChild(name);
+	document.getElementById('groups-container').appendChild(group);
+
+	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
+}
+
 window.onload = function(event) {
 	document.getElementById('list-container').childNodes.forEach(function(e, i, l) {
 		if (!e.classList.contains('done')) {
 			e.childNodes[1].onclick = async function(event) {
-			await doneElement(e);
+				await doneElement(e);
 			};
 		}
 	});
@@ -54,6 +81,14 @@ window.onload = function(event) {
 		}
 	}
 
+	document.getElementById('list-btn').onclick = function (event) {
+		addList();
+	}
+
+	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].addEventListener('keydown', function(event) {
+		if (event.code === 'Enter')
+			addList();
+	});
 }
 
 document.getElementById('logout').addEventListener('click', event => {
