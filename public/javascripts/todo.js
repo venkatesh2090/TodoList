@@ -59,6 +59,16 @@ async function addList() {
 	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 }
 
+function changeList(groupId) {
+	window.sessionStorage.setItem('groupId', groupId);
+	document.querySelector('#groups-container .active').className = '';
+
+	const activeDiv = document.querySelector(`#groups-container div[gid="${groupId}"]`);
+	if (activeDiv != null){
+		activeDiv.classList.add('active');
+	}
+};
+
 window.onload = function(event) {
 	document.getElementById('list-container').childNodes.forEach(function(e, i, l) {
 		if (!e.classList.contains('done')) {
@@ -88,6 +98,23 @@ window.onload = function(event) {
 	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].addEventListener('keydown', function(event) {
 		if (event.code === 'Enter')
 			addList();
+	});
+
+	if (window.sessionStorage.getItem('groupId') == null) {
+		let groupContainer = document.getElementById('groups-container').childNodes[0];
+		groupContainer.classList.add("active");
+		window.sessionStorage.setItem('groupId', groupContainer.getAttribute('gid'))
+	}
+
+	document.getElementById('groups-container').childNodes.forEach(function (e, i) {
+		e.onclick = function (event) {
+			console.log(e.getAttribute('gid'));
+			changeList(e.getAttribute('gid'));
+		}
+
+		if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
+			e.classList.add('active');
+		}
 	});
 }
 
