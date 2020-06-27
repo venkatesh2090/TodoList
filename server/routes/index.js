@@ -28,7 +28,7 @@ router.get('/', async function (req, res, next) {
 	res.render('index', {
 		title: 'TODO List',
 		tasks: result,
-		logout: false
+		logout: true
 	});
 });
 
