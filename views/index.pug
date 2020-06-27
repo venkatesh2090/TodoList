@@ -15,7 +15,7 @@ block content
 				form#task-form.align-items-start.d-flex.w-75.flex-column(name='task' method='POST')
 					label(for='task') Task
 					div.form-group.w-100.d-flex.flex-column.flex-sm-row.mb-2.mb-sm-3
-						input#task.form-control(type='text' name='task' placeholder='Do Something')
+						input#task.form-control(type='text' name='task' placeholder='Do Something' required)
 						input#add-btn.btn.btn-primary(type='submit' value='Add Task')
 				div.w-75.d-flex.flex-column
 					input.remove.btn.btn-danger.d-block.d-sm-none(type='button' value='Remove')
