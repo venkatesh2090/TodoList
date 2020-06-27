@@ -7,7 +7,8 @@ block content
 	div.d-flex.flex-row
 		div#side-menu.h-100.d-flex.flex-column.align-items-center.py-2
 			each group in groupList
-				p= group.group_name
+				div(gid= group.id)
+					p= group.group_name
 				
 		div.container.d-flex.flex-column.align-items-center
 			hr
