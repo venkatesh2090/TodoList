@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { getAllTasks, insertTask } from '../database/getTasks';
+import { getAllTasks, insertTask, getGroupsFromUserId } from '../database/getTasks';
 import createError from 'http-errors';
 
 /**
@@ -24,11 +24,13 @@ router.post('/', async function (req, res, next) {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-	var result = await getAllTasks(req.session.user);
+	var todos = await getAllTasks(req.session.user);
+	var groups = await getGroupsFromUserId(req.session.user);
 	res.render('index', {
 		title: 'TODO List',
-		tasks: result,
-		logout: true
+		tasks: todos,
+		logout: true,
+		groupList: groups
 	});
 });
 
