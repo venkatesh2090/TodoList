@@ -1,7 +1,7 @@
 extends layout
 
 block stylesheets
-	link(rel='stylesheet' href='/stylesheets/style.css')/
+	link(rel='stylesheet' href='/static/stylesheets/style.css')/
 
 block content
 	div.d-flex.flex-row
@@ -31,4 +31,4 @@ block content
 							h4.mb-0.my-2= val.todo
 							img.mx-1(src='images/tick.svg' alt='done' width="30" height="30")/
 	
-	script(src='/javascripts/todo.js')
+	script(src='/static/javascripts/todo.js')

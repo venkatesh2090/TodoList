@@ -31,6 +31,7 @@ app.use(cookieSession({
   keys: Keygrip(['mySecret'], 'sha256'),
 }));
 
+app.use('/static', express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(function (req, res, next) {
