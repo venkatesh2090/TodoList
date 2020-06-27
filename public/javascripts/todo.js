@@ -54,16 +54,9 @@ window.onload = function(event) {
 		}
 	}
 
-	document.getElementById('side-menu').addEventListener('focus', event => {
-		console.log('Side Menu on focus');
-	});
-	
-	document.getElementById('task').addEventListener('focus', event => {
-		console.log('task on focus');
-	});
-
-	document.getElementById('logout').addEventListener('click', event => {
-		window.location = '/logout';
-	});
-
 }
+
+document.getElementById('logout').addEventListener('click', event => {
+	window.location = '/logout';
+});
+
