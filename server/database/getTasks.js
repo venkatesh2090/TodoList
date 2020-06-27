@@ -1,7 +1,10 @@
 import _pgp from 'pg-promise';
 import fs from 'fs';
 
-const tableName = 'todos';
+const todoTable = 'todos';
+const todoGroups = 'todo_groups';
+const todoUsers = 'todo_users';
+
 const pgp = _pgp({
 	connect(client, dc, useCount) {
 		console.log(`Activity on: ${client.database}`);
@@ -30,39 +33,43 @@ const config = {
 const db = pgp(config);
 
 export async function getAllTasks(userId) {
-	return await db.any(`SELECT * FROM ${tableName} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
+	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
 }
 
 export function insertTask(task, userId) {
-	return db.none(`INSERT INTO ${tableName} (todo, user_id) VALUES ($1, $2)`, [task, userId]);
+	return db.none(`INSERT INTO ${todoTable} (todo, user_id) VALUES ($1, $2)`, [task, userId]);
 }
 
 export async function deleteTask(id) {
-	await db.none(`DELETE FROM ${tableName} WHERE id = $1`, [id]);
+	await db.none(`DELETE FROM ${todoTable} WHERE id = $1`, [id]);
 }
 
 export async function taskDone(id) {
-	await db.none(`UPDATE ${tableName} t SET is_done=TRUE WHERE t.id = $1`, [id]);
+	await db.none(`UPDATE ${todoTable} t SET is_done=TRUE WHERE t.id = $1`, [id]);
 }
 
 export async function deleteDone(userId) {
-	await db.none(`DELETE FROM ${tableName} WHERE is_done AND user_id = $1`, [userId]);
+	await db.none(`DELETE FROM ${todoTable} WHERE is_done AND user_id = $1`, [userId]);
 }
 
 export async function userExists(username) {
-	return await db.one('SELECT COUNT(*) = 1 AS exists FROM todo_users WHERE username = $1', [username]);
+	return await db.one(`SELECT COUNT(*) = 1 AS exists FROM ${todoUsers} WHERE username = $1`, [username]);
 }
 
 export async function emailExists(email) {
-	return await db.one('SELECT COUNT(*) = 1 AS exists FROM todo_users WHERE email = $1', [email]);
+	return await db.one(`SELECT COUNT(*) = 1 AS exists FROM ${todoUsers} WHERE email = $1`, [email]);
 }
 
 export async function insertUser(username, password, email) {
-	await db.none('INSERT INTO todo_users (username, password, email) VALUES ($1, $2, $3)', [username, password, email]);
+	await db.none(`INSERT INTO ${todoUsers} (username, password, email) VALUES ($1, $2, $3)`, [username, password, email]);
 }
 
-export async function getUser(username) {
-	return await db.one('SELECT * FROM todo_users WHERE username = $1', [username]);
+export async function getUserFromUsername(username) {
+	return await db.one(`SELECT * FROM ${todoUsers} WHERE username = $1`, [username]);
+}
+
+export async function insertTodoGroup(userId, groupName) {
+	await db.none(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2)`, [userId, groupName]);
 }
 
 export function createTables(pathToSQL) {
