@@ -11,25 +11,25 @@ import createError from 'http-errors';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-router.post('/', async function(req, res, next) {
-  const task = req.body.task;
-  const regEx = /^ *$/;
+router.post('/', async function (req, res, next) {
+	const task = req.body.task;
+	const regEx = /^ *$/;
 
-  if (!regEx.test(task)) {
-	await insertTask(task, req.session.user);
-  }
+	if (!regEx.test(task)) {
+		await insertTask(task, req.session.user);
+	}
 
-  res.redirect('/');
+	res.redirect('/');
 });
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-  var result = await getAllTasks(req.session.user);
-  res.render('index', {
-	title: 'TODO List',
-	tasks: result,
-	logout: false
-  });
+router.get('/', async function (req, res, next) {
+	var result = await getAllTasks(req.session.user);
+	res.render('index', {
+		title: 'TODO List',
+		tasks: result,
+		logout: false
+	});
 });
 
 export default router;

@@ -1,69 +1,69 @@
 async function doneElement(element) {
-  const id = element.getAttribute('id');
+	const id = element.getAttribute('id');
 
-  const url = `/api/done/${id}`;
-  const config = {
+	const url = `/api/done/${id}`;
+	const config = {
 	method: 'GET'
-  };
+	};
 
-  const response = await fetch(url, config);
-  if (!response.ok) {
+	const response = await fetch(url, config);
+	if (!response.ok) {
 	alert(`Could not delete ${id}`);
-  }
+	}
 
-  element.classList += ' done';
-  element.childNodes[1].remove();
+	element.classList += ' done';
+	element.childNodes[1].remove();
 }
 
 async function deleteDone() {
-  const url = '/api/deleteDone';
+	const url = '/api/deleteDone';
 
-  const response = await fetch(url, {
+	const response = await fetch(url, {
 	method: 'GET'
-  })
+	})
 
-  if (!response.ok)
+	if (!response.ok)
 	alert(`Couldn't delete ${id}`);
-  
-  const taskList = document.querySelectorAll('#list-container .done');
+	
+	const taskList = document.querySelectorAll('#list-container .done');
 
-  taskList.forEach(function (task) {
+	taskList.forEach(function (task) {
 	task.remove();
-  });
+	});
 
 }
 
 window.onload = function(event) {
-  document.getElementById('list-container').childNodes.forEach(function(e, i, l) {
+	document.getElementById('list-container').childNodes.forEach(function(e, i, l) {
 	if (!e.classList.contains('done')) {
-	  e.childNodes[1].onclick = async function(event) {
+		e.childNodes[1].onclick = async function(event) {
 		await doneElement(e);
-	  };
+		};
 	}
-  });
+	});
 
-  document.querySelectorAll('.remove').forEach(element => element.onclick = async function (event) {
+	document.querySelectorAll('.remove').forEach(element => element.onclick = async function (event) {
 	await deleteDone();
-  });
+	});
 
-  document.getElementById('side-menu-button').onclick = function (event) {
+	document.getElementById('side-menu-button').onclick = function (event) {
 	const sideMenu = document.getElementById('side-menu');
 	if (sideMenu.classList.contains('open')){
-	  sideMenu.classList.remove('open');
+		sideMenu.classList.remove('open');
 	} else {
-	  sideMenu.classList.add('open');
+		sideMenu.classList.add('open');
 	}
-  }
+	}
 
-  document.getElementById('side-menu').addEventListener('focus', event => {
+	document.getElementById('side-menu').addEventListener('focus', event => {
 	console.log('Side Menu on focus');
-  });
-  
-  document.getElementById('task').addEventListener('focus', event => {
+	});
+	
+	document.getElementById('task').addEventListener('focus', event => {
 	console.log('task on focus');
-  });
+	});
 
-  document.getElementById('logout').addEventListener('click', event => {
+	document.getElementById('logout').addEventListener('click', event => {
 	window.location = '/logout';
-  });
+	});
 }
