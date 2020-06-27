@@ -2,10 +2,15 @@ extends layout
 
 block content
 	div.container
-		form
+		form(method='POST' action='/signup')
 			div.form-group
-				label(for='username')
-				input.form-control(type='text' placeholder='Username' name='username')
+				label(for='username') Username
+				input.form-control(type='text' placeholder='Username' name='username' required)
 			div.form-group
-				label(for='password')
-				input.form-control(type='text' placeholder='Password' name='password')
+				label(for='email') Email
+				input.form-control(type='email' placeholder='Email' name='email' required)
+			div.form-group
+				label(for='password') Password
+				input.form-control(type='password' placeholder='Password' name='password' required)
+			div.form-group
+				input.form-control.btn.btn-primary(type='submit' value='Signup')
