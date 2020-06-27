@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { userExists, getUser } from '../database/getTasks';
+import { userExists, getUserFromUsername } from '../database/getTasks';
 
 router.get('/', function (req, res, next) {
 	res.render('login', {
@@ -16,7 +16,7 @@ router.post('/', async function (req, res, next) {
 	let queryRes = await userExists(username);
 
 	if (queryRes.exists) {
-		queryRes = await getUser(username);
+		queryRes = await getUserFromUsername(username);
 		if (queryRes.password == req.body.password) {
 			req.session.user = queryRes.id;
 			res.redirect('/');
