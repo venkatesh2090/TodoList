@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { userExists, emailExists, insertUser } from '../database/getTasks';
+import { userExists, emailExists, insertUser, getUserFromUsername, insertTodoGroup } from '../database/getTasks';
 
 router.get('/', function (req, res, next) {
 	res.render('signup', {
@@ -12,34 +12,20 @@ router.post('/', async function (req, res, next) {
 	const isUser = await userExists(req.body.username).then(res => res.exists);
 	const isEmail = await emailExists(req.body.email).then(res => res.exists);
 
-	console.log(`${isUser} ${isEmail}`);
-
 	if (!isUser && !isEmail) {
-		console.log(`${req.body.username} ${req.body.password} ${req.body.email}`);
 		await insertUser(req.body.username, req.body.password, req.body.email);
-		res.redirect('/login');
+		console.log(`${req.body.username} ${req.body.password} ${req.body.email}`);
+		const userId = await getUserFromUsername(req.body.username).then(res => res.id);
+		req.session.user = userId;
+
+		await insertTodoGroup(userId, 'default');
+		res.redirect('/');
 	} else {
 		res.render('signup', {
 			title: 'Signup',
-			logout: false
-		});
-	}
-});
-
-router.post('/', async function (req, res, next) {
-	const isUser = await userExists(req.body.username).then(res => res.exists);
-	const isEmail = await emailExists(req.body.email).then(res => res.exists);
-
-	console.log(`${isUser} ${isEmail}`);
-
-	if (!isUser && !isEmail) {
-		console.log(`${req.body.username} ${req.body.password} ${req.body.email}`);
-		await insertUser(req.body.username, req.body.password, req.body.email);
-		res.redirect('/login');
-	} else {
-		res.render('signup', {
-			title: 'Signup',
-			logout: false
+			logout: false,
+			userExists: isUser,
+			emailExists: isEmail
 		});
 	}
 });

@@ -6,9 +6,13 @@ block content
 			div.form-group
 				label(for='username') Username
 				input.form-control(type='text' placeholder='Username' name='username' required)
+				if userExists
+					small.form-text.text-danger Username already exists
 			div.form-group
 				label(for='email') Email
 				input.form-control(type='email' placeholder='Email' name='email' required)
+				if emailExists
+					small.form-text.text-danger Email is already in use
 			div.form-group
 				label(for='password') Password
 				input.form-control(type='password' placeholder='Password' name='password' required)
