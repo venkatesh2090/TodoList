@@ -33,11 +33,11 @@ const config = {
 const db = pgp(config);
 
 export async function getAllTasks(userId) {
-	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
+	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
 }
 
 export async function getTaskByGroupId(userId, groupId) {
-	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]);
+	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]);
 }
 
 export async function getDefaultTasks(userId) {
