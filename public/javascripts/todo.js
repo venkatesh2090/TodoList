@@ -105,7 +105,7 @@ function renderTodos(data) {
 
 async function changeList(groupId) {
 	window.sessionStorage.setItem('groupId', groupId);
-	document.querySelector('#task-form input[type="hidden"]').setAttribute('value', groupId);
+	document.querySelector('#task-form input[type="hidden"]').value = groupId;
 	if (document.querySelector('#groups-container .active') != null)
 		document.querySelector('#groups-container .active').className = '';
 	
@@ -181,9 +181,12 @@ window.onload = function(event) {
 	if (document.querySelector('#groups-container .active') == null) {
 		document.querySelector('#groups-container div').classList.add('active');
 	}
+
+	document.querySelector('#task-form input[type="hidden"]').value = window.sessionStorage.getItem('groupId');
 }
 
 document.getElementById('logout').addEventListener('click', event => {
+	window.sessionStorage.removeItem('groupId');
 	window.location = '/logout';
 });
 
