@@ -64,7 +64,12 @@ async function addList() {
 
 function renderTodos(data) {
 	const container = document.getElementById('list-container');
-	container.innerHTML = '';
+
+	document.querySelector('#list-container .active').className = '';
+
+	const listDiv = document.createElement('div');
+	listDiv.classList.add('active');
+	listDiv.setAttribute('gid', data[0].todo_group);
 
 	data.forEach(function(row) {
 		console.log(JSON.stringify(row));
