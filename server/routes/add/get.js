@@ -8,6 +8,8 @@ router.get('/tasks/:gid', async function(req, res, next) {
 	const userId = req.session.user;
 	console.log(`${groupId} ${userId}`);
 
+	req.session.gid = req.params.gid;
+
 	const tasks = await getTaskByGroupId(userId, groupId);
 
 	res.json(tasks);
