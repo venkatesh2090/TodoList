@@ -114,3 +114,11 @@ div.remove div {
 #groups-container div[gid]:hover {
 	cursor: pointer;
 }
+
+#list-container div {
+	display: none;
+}
+
+#list-container .active {
+	display: block !important;
+}
