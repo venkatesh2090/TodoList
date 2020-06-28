@@ -6,7 +6,6 @@ import { getTaskByGroupId } from '../../database/getTasks.js';
 router.get('/tasks/:gid', async function(req, res, next) {
 	const groupId = req.params.gid;
 	const userId = req.session.user;
-	console.log(`${groupId} ${userId}`);
 
 	req.session.gid = req.params.gid;
 
