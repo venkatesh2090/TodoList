@@ -54,14 +54,52 @@ async function addList() {
 	name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
 
 	group.appendChild(name);
+
+	group.onclick = event => changeList(res.groupId);
+
 	document.getElementById('groups-container').appendChild(group);
 
 	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 }
 
+function renderTodos(data) {
+	const container = document.getElementById('list-container');
+	container.innerHTML = '';
+
+	data.forEach(function(row) {
+		console.log(JSON.stringify(row));
+
+		const element = document.createElement('div');
+		element.className = 'w-100 d-flex flex-row align-items-center justify-content-between';
+		element.setAttribute('id', row.id);
+
+		const task = document.createElement('h4');
+		task.className = 'mb-0 my-2';
+		task.appendChild(document.createTextNode(row.todo));
+
+		element.appendChild(task);
+
+		if (row.is_done)
+			element.classList.add('done');
+		else {
+			element.classList.add('ongoing');
+			let tick = document.createElement('img');
+			tick.className = 'mx-1';
+			tick.setAttribute('src', '/static/images/tick.svg');
+			tick.setAttribute('width', 30);
+			tick.setAttribute('height', 30);
+			element.appendChild(tick);
+		}
+
+		container.appendChild(element);
+
+	});
+}
+
 async function changeList(groupId) {
 	window.sessionStorage.setItem('groupId', groupId);
-	document.querySelector('#groups-container .active').className = '';
+	if (document.querySelector('#groups-container .active') != null)
+		document.querySelector('#groups-container .active').className = '';
 	const url = `/api/get/tasks/${groupId}`;
 
 	const activeDiv = document.querySelector(`#groups-container div[gid="${groupId}"]`);
@@ -73,8 +111,8 @@ async function changeList(groupId) {
 		method: 'GET'
 	});
 
-	fetch(req).then(res => res.json())
-		.then(res => console.log(res));
+	const data = await fetch(req).then(res => res.json());
+	renderTodos(data);
 };
 
 window.onload = function(event) {
@@ -116,7 +154,6 @@ window.onload = function(event) {
 
 	document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 		e.onclick = async function (event) {
-			console.log(e.getAttribute('gid'));
 			await changeList(e.getAttribute('gid'));
 		}
 
