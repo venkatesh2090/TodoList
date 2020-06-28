@@ -17,13 +17,13 @@ router.post('/', async function (req, res, next) {
 	const userId = req.session.user;
 
 	let firstGroup;
-	if (req.session.gid == null || req.session.gid == undefined) {
+	if (req.body.gid == null || req.body.gid == undefined) {
 		firstGroup = await getDefaultGroupId(userId);
 		firstGroup = firstGroup.min;
 	}
 
 	if (!regEx.test(task)) {
-		await insertTask(task, userId, req.session.gid || firstGroup);
+		await insertTask(task, userId, req.body.gid || firstGroup);
 	}
 
 	res.redirect('/');
