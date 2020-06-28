@@ -88,35 +88,45 @@ function renderTodos(data) {
 			tick.setAttribute('src', '/static/images/tick.svg');
 			tick.setAttribute('width', 30);
 			tick.setAttribute('height', 30);
+			tick.onclick = event => doneElement(element);
 			element.appendChild(tick);
 		}
 
-		container.appendChild(element);
-
+		listDiv.appendChild(element);
 	});
+
+	container.appendChild(listDiv);
 }
 
 async function changeList(groupId) {
 	window.sessionStorage.setItem('groupId', groupId);
+	document.querySelector('#task-form input[type="hidden"]').setAttribute('value', groupId);
 	if (document.querySelector('#groups-container .active') != null)
 		document.querySelector('#groups-container .active').className = '';
-	const url = `/api/get/tasks/${groupId}`;
-
+	
 	const activeDiv = document.querySelector(`#groups-container div[gid="${groupId}"]`);
-	if (activeDiv != null){
-		activeDiv.classList.add('active');
+	activeDiv.classList.add('active');
+
+	if (document.querySelector(`#list-container div[gid="${groupId}"]`) == null) {
+		const url = `/api/get/tasks/${groupId}`;
+		if (activeDiv != null){
+			activeDiv.classList.add('active');
+		}
+
+		const req = new Request(url, {
+			method: 'GET'
+		});
+
+		const data = await fetch(req).then(res => res.json());
+		renderTodos(data);
+	} else {
+		document.querySelector('#list-container .active').className = '';
+		document.querySelector(`#list-container div[gid="${groupId}"`).classList.add('active');
 	}
-
-	const req = new Request(url, {
-		method: 'GET'
-	});
-
-	const data = await fetch(req).then(res => res.json());
-	renderTodos(data);
 };
 
 window.onload = function(event) {
-	document.getElementById('list-container').childNodes.forEach(function(e, i, l) {
+	document.querySelector('#list-container .active').childNodes.forEach(function(e, i, l) {
 		if (!e.classList.contains('done')) {
 			e.childNodes[1].onclick = async function(event) {
 				await doneElement(e);
