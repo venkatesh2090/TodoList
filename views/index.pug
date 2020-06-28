@@ -11,7 +11,7 @@ block content
 					input.form-control(name='group' type='text' placeholder='Name')
 				div.form-group
 					input#list-btn.form-control.btn.btn-primary(type='button' value='New List')
-			div#groups-container
+			div#groups-container.d-flex.flex-column.align-items-center
 				each group in groupList
 					div(gid= group.id)
 						p= group.group_name
