@@ -40,6 +40,10 @@ export async function getTaskByGroupId(userId, groupId) {
 	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]);
 }
 
+export async function getDefaultTasks(userId) {
+	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1)`, [userId]);
+}
+
 export function insertTask(task, userId, groupId) {
 	return db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
 }
@@ -78,6 +82,10 @@ export async function insertTodoGroup(userId, groupName) {
 
 export async function getGroupsFromUserId(userId) {
 	return await db.any(`SELECT g.id, g.group_name FROM ${todoGroups} g WHERE user_id = $1 ORDER BY g.id ASC`, [userId]);
+}
+
+export async function getDefaultGroupId(userId) {
+	return await db.one(`SELECT MIN(id) FROM ${todoGroups} WHERE user_id = $1`, [userId]);
 }
 
 export async function insertGroup(userId, groupName) {
