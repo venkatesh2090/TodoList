@@ -161,6 +161,10 @@ window.onload = function(event) {
 			e.classList.add('active');
 		}
 	});
+
+	if (document.querySelector('#groups-container .active') == null) {
+		document.querySelector('#groups-container div').classList.add('active');
+	}
 }
 
 document.getElementById('logout').addEventListener('click', event => {
