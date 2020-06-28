@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { getAllTasks, insertTask, getGroupsFromUserId } from '../database/getTasks';
+import { getTaskByGroupId, insertTask, getGroupsFromUserId, getDefaultTasks, getDefaultGroupId } from '../database/getTasks';
 import createError from 'http-errors';
 
 /**
@@ -14,9 +14,16 @@ import 'regenerator-runtime/runtime';
 router.post('/', async function (req, res, next) {
 	const task = req.body.task;
 	const regEx = /^ *$/;
+	const userId = req.session.user;
+
+	let firstGroup;
+	if (req.session.gid == null || req.session.gid == undefined) {
+		firstGroup = await getDefaultGroupId(userId);
+		firstGroup = firstGroup.min;
+	}
 
 	if (!regEx.test(task)) {
-		await insertTask(task, req.session.user, 1);
+		await insertTask(task, userId, req.session.gid || firstGroup);
 	}
 
 	res.redirect('/');
@@ -24,8 +31,13 @@ router.post('/', async function (req, res, next) {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-	var todos = await getAllTasks(req.session.user);
-	var groups = await getGroupsFromUserId(req.session.user);
+	let todos;
+	if (req.session.gid != null && req.session.gid != undefined)
+		todos = await getTaskByGroupId(req.session.user, req.session.gid);
+	else
+		todos = await getDefaultTasks(req.session.user);
+
+	let groups = await getGroupsFromUserId(req.session.user);
 
 	res.render('index', {
 		title: 'TODO List',
