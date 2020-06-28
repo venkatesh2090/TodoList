@@ -174,6 +174,7 @@ window.onload = function(event) {
 
 		if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
 			e.classList.add('active');
+			changeList(e.getAttribute('gid'));
 		}
 	});
 
