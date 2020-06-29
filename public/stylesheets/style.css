@@ -111,7 +111,7 @@ div.remove div {
 	color: var(--blue);
 }
 
-#groups-container div[gid]:hover {
+#groups-container div[gid] p:hover {
 	cursor: pointer;
 }
 
