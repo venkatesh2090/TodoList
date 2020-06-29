@@ -62,43 +62,45 @@ async function addList() {
 	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 }
 
-function renderTodos(data) {
+function renderTodos(data, groupId) {
 	const container = document.getElementById('list-container');
 
 	document.querySelector('#list-container .active').className = '';
 
 	const listDiv = document.createElement('div');
 	listDiv.classList.add('active');
-	listDiv.setAttribute('gid', data[0].todo_group);
+	listDiv.setAttribute('gid', groupId);
 
-	data.forEach(function(row) {
-		console.log(JSON.stringify(row));
+	if (data.length != 0) {
+		data.forEach(function(row) {
+			console.log(JSON.stringify(row));
 
-		const element = document.createElement('div');
-		element.className = 'w-100 d-flex flex-row align-items-center justify-content-between';
-		element.setAttribute('id', row.id);
+			const element = document.createElement('div');
+			element.className = 'w-100 d-flex flex-row align-items-center justify-content-between';
+			element.setAttribute('id', row.id);
 
-		const task = document.createElement('h4');
-		task.className = 'mb-0 my-2';
-		task.appendChild(document.createTextNode(row.todo));
+			const task = document.createElement('h4');
+			task.className = 'mb-0 my-2';
+			task.appendChild(document.createTextNode(row.todo));
 
-		element.appendChild(task);
+			element.appendChild(task);
 
-		if (row.is_done)
-			element.classList.add('done');
-		else {
-			element.classList.add('ongoing');
-			let tick = document.createElement('img');
-			tick.className = 'mx-1';
-			tick.setAttribute('src', '/static/images/tick.svg');
-			tick.setAttribute('width', 30);
-			tick.setAttribute('height', 30);
-			tick.onclick = event => doneElement(element);
-			element.appendChild(tick);
-		}
+			if (row.is_done)
+				element.classList.add('done');
+			else {
+				element.classList.add('ongoing');
+				let tick = document.createElement('img');
+				tick.className = 'mx-1';
+				tick.setAttribute('src', '/static/images/tick.svg');
+				tick.setAttribute('width', 30);
+				tick.setAttribute('height', 30);
+				tick.onclick = event => doneElement(element);
+				element.appendChild(tick);
+			}
 
-		listDiv.appendChild(element);
-	});
+			listDiv.appendChild(element);
+		});
+	}
 
 	container.appendChild(listDiv);
 }
@@ -123,7 +125,7 @@ async function changeList(groupId) {
 		});
 
 		const data = await fetch(req).then(res => res.json());
-		renderTodos(data);
+		renderTodos(data, groupId);
 	} else {
 		document.querySelector('#list-container .active').className = '';
 		document.querySelector(`#list-container div[gid="${groupId}"`).classList.add('active');
