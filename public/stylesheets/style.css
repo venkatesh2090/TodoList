@@ -106,3 +106,19 @@ div.remove div {
 .navigationBar {
   position: sticky;
 }
+
+#groups-container .active {
+	color: var(--blue);
+}
+
+#groups-container div[gid]:hover {
+	cursor: pointer;
+}
+
+#list-container div {
+	display: none;
+}
+
+#list-container .active {
+	display: block !important;
+}

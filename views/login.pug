@@ -1,7 +1,7 @@
 extends layout.pug
 
 block stylesheets
-	link(rel='stylesheet' href='/stylesheets/login.css')/
+	link(rel='stylesheet' href='/static/stylesheets/login.css')/
 	
 block content
 	div#login-container.d-flex.flex-column.align-items-center.justify-content-center
@@ -18,3 +18,8 @@ block content
 					small.form-text.text-danger Wrong credentials
 			div.form-group
 				input.btn.btn-primary.form-control(type='submit' value='Submit')
+			div.form-group
+				input#signup.btn.btn-success.form-control(type='button' value='Sign Up')
+
+block javascripts
+	script(src='/static/javascripts/login.js')

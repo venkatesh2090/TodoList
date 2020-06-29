@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { getAllTasks, insertTask } from '../database/getTasks';
+import { getTaskByGroupId, insertTask, getGroupsFromUserId, getDefaultTasks, getDefaultGroupId } from '../database/getTasks';
 import createError from 'http-errors';
 
 /**
@@ -11,24 +11,40 @@ import createError from 'http-errors';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-router.post('/', async function(req, res, next) {
-  const task = req.body.task;
-  const regEx = /^ *$/;
+router.post('/', async function (req, res, next) {
+	const task = req.body.task;
+	const regEx = /^ *$/;
+	const userId = req.session.user;
 
-  if (!regEx.test(task)) {
-	await insertTask(task, req.session.user);
-  }
+	let firstGroup;
+	if (req.body.gid == null || req.body.gid == undefined) {
+		firstGroup = await getDefaultGroupId(userId);
+		firstGroup = firstGroup.min;
+	}
 
-  res.redirect('/');
+	if (!regEx.test(task)) {
+		await insertTask(task, userId, req.body.gid || firstGroup);
+	}
+
+	res.redirect('/');
 });
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-  var result = await getAllTasks(req.session.user);
-  res.render('index', {
-	title: 'TODO List',
-	tasks: result
-  });
+router.get('/', async function (req, res, next) {
+	let todos;
+	if (req.session.gid != null && req.session.gid != undefined)
+		todos = await getTaskByGroupId(req.session.user, req.session.gid);
+	else
+		todos = await getDefaultTasks(req.session.user);
+
+	let groups = await getGroupsFromUserId(req.session.user);
+
+	res.render('index', {
+		title: 'TODO List',
+		tasks: todos,
+		logout: true,
+		groupList: groups
+	});
 });
 
 export default router;

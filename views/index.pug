@@ -1,34 +1,44 @@
 extends layout
 
 block stylesheets
-	link(rel='stylesheet' href='/stylesheets/style.css')/
+	link(rel='stylesheet' href='/static/stylesheets/style.css')/
 
 block content
 	div.d-flex.flex-row
 		div#side-menu.h-100.d-flex.flex-column.align-items-center.py-2
-			p Hello
-			p World
-			p Task
+			div#list-form
+				div.form-group
+					input.form-control(name='group' type='text' placeholder='Name')
+				div.form-group
+					input#list-btn.form-control.btn.btn-primary(type='button' value='New List')
+			div#groups-container.d-flex.flex-column.align-items-center
+				each group in groupList
+					div(gid= group.id)
+						p= group.group_name
+				
 		div.container.d-flex.flex-column.align-items-center
 			hr
 			div.w-100.d-flex.flex-column.align-items-center
 				form#task-form.align-items-start.d-flex.w-75.flex-column(name='task' method='POST')
+					input(type='hidden' name='gid' value=tasks[0].todo_group)
 					label(for='task') Task
 					div.form-group.w-100.d-flex.flex-column.flex-sm-row.mb-2.mb-sm-3
-						input#task.form-control(type='text' name='task' placeholder='Do Something')
+						input#task.form-control(type='text' name='task' placeholder='Do Something' required)
 						input#add-btn.btn.btn-primary(type='submit' value='Add Task')
 				div.w-75.d-flex.flex-column
 					input.remove.btn.btn-danger.d-block.d-sm-none(type='button' value='Remove')
 					div.remove.align-self-end.d-sm-flex.flex-column.align-items-center.d-none
 						div.bg-danger
 			div.w-75.container.flex-column.d-flex.pt-3.px-0#list-container
-				each val in tasks
-					if val.is_done
-						div.w-100.d-flex.flex-row.align-items-center.justify-content-between.done(id=val.id)
-							h4.mb-0.my-2= val.todo
-					else
-						div.w-100.d-flex.flex-row.align-items-center.justify-content-between.ongoing(id=val.id)
-							h4.mb-0.my-2= val.todo
-							img.mx-1(src='images/tick.svg' alt='done' width="30" height="30")/
+				div.active(gid=tasks[0].todo_group)
+					each val in tasks
+						if val.is_done
+							div.w-100.d-flex.flex-row.align-items-center.justify-content-between.done(id=val.id)
+								h4.mb-0.my-2= val.todo
+						else
+							div.w-100.d-flex.flex-row.align-items-center.justify-content-between.ongoing(id=val.id)
+								h4.mb-0.my-2= val.todo
+								img.mx-1(src='/static/images/tick.svg' alt='done' width="30" height="30")/
 	
-	script(src='/javascripts/todo.js')
+block javascripts
+	script(src='/static/javascripts/todo.js')

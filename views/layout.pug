@@ -4,7 +4,7 @@ html
 		title= title
 		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous')
 		meta(name='viewport' content='width=device-width, initial-scale=1')
-		link(rel='stylesheet'  href='/stylesheets/navigation.css')
+		link(rel='stylesheet'  href='/static/stylesheets/navigation.css')
 		block stylesheets
 	body
 		div.navigationBar.d-flex.flex-row
@@ -13,9 +13,12 @@ html
 					div
 					div
 					div
-				h3.mb-0.ml-1.ml-md-2= title
-			input#logout.btn.btn-danger.align-self-end.mx-2(type='button' value='Logout')
+				h3.mb-0.ml-1.ml-md-2 TODO List
+			if logout
+				input#logout.btn.btn-danger.align-self-end.mx-2(type='button' value='Logout')
 		block content
 		script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' crossorigin='anonymous' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q')
 		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymuos')
+
+		block javascripts
