@@ -31,11 +31,9 @@ router.post('/', async function (req, res, next) {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-	let todos;
-	if (req.session.gid != null && req.session.gid != undefined)
-		todos = await getTaskByGroupId(req.session.user, req.session.gid);
-	else
-		todos = await getDefaultTasks(req.session.user);
+	let todos = await getDefaultTasks(req.session.user);
+	if (todos.length == 0)
+		todos = await getDefaultGroupId(req.session.user).then(res => res.min);
 
 	let groups = await getGroupsFromUserId(req.session.user);
 
