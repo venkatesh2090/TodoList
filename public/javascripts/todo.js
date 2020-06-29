@@ -170,7 +170,7 @@ window.onload = function(event) {
 	}
 
 	document.getElementById('groups-container').childNodes.forEach(function (e, i) {
-		e.onclick = async function (event) {
+		e.childNodes[0].onclick = async function (event) {
 			await changeList(e.getAttribute('gid'));
 		}
 
