@@ -20,7 +20,10 @@ block content
 			hr
 			div.w-100.d-flex.flex-column.align-items-center
 				form#task-form.align-items-start.d-flex.w-75.flex-column(name='task' method='POST')
-					input(type='hidden' name='gid' value=tasks[0].todo_group)
+					- let groupVal;
+					- if (typeof(tasks) === "number") groupVal = tasks
+					- else groupVal = tasks[0].todo_group
+					input(type='hidden' name='gid' value=groupVal)
 					label(for='task') Task
 					div.form-group.w-100.d-flex.flex-column.flex-sm-row.mb-2.mb-sm-3
 						input#task.form-control(type='text' name='task' placeholder='Do Something' required)
@@ -30,7 +33,7 @@ block content
 					div.remove.align-self-end.d-sm-flex.flex-column.align-items-center.d-none
 						div.bg-danger
 			div.w-75.container.flex-column.d-flex.pt-3.px-0#list-container
-				div.active(gid=tasks[0].todo_group)
+				div.active(gid=groupVal)
 					each val in tasks
 						if val.is_done
 							div.w-100.d-flex.flex-row.align-items-center.justify-content-between.done(id=val.id)
