@@ -101,6 +101,7 @@ div.remove div {
   width: 100%;
   height: 5px;
   border-radius: 3px;
+  background-color: var(--red);
 }
 
 .navigationBar {
