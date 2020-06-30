@@ -192,11 +192,6 @@ document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 	e.childNodes[0].onclick = async function (event) {
 		await changeList(e.getAttribute('gid'));
 	}
-
-	if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
-		e.classList.add('active');
-		changeList(e.getAttribute('gid'));
-	}
 });
 
 document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
@@ -211,6 +206,10 @@ window.onload = function(event) {
 		let groupContainer = document.getElementById('groups-container').childNodes[0];
 		groupContainer.classList.add("active");
 		window.sessionStorage.setItem('groupId', groupContainer.getAttribute('gid'))
+	} else {
+		const groupId = window.sessionStorage.getItem('groupId');
+		document.querySelector(`#groups-container div[gid="${groupId}"]`).classList.add('active');
+		changeList(groupId);
 	}
 
 	if (document.querySelector('#groups-container .active') == null) {
