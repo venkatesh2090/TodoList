@@ -5,6 +5,7 @@ const todoGroups = 'todo_groups';
 const todoUsers = 'todo_users';
 
 const QueryFile = _pgp.QueryFile;
+const TransactionMode = _pgp.txMode.TransactionMode;
 const pgp = _pgp({
 	connect(client, dc, useCount) {
 		console.log(`Activity on: ${client.database}`);
@@ -32,20 +33,28 @@ const config = {
 
 const db = pgp(config);
 
+const txMode = new TransactionMode();
+
 export async function getAllTasks(userId) {
 	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
 }
 
 export async function getTaskByGroupId(userId, groupId) {
-	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]);
+	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2 ORDER BY id ASC`, [userId, groupId]);
 }
 
 export async function getDefaultTasks(userId) {
-	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1)`, [userId]);
+	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1) ORDER BY id ASC`, [userId]);
 }
 
-export function insertTask(task, userId, groupId) {
-	return db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
+export async function insertTask(task, userId, groupId) {
+	return await db.tx({ mode: txMode }, async t => {
+		db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
+	}).then(() => true)
+		.catch(err => {
+			console.log(err);
+			return false
+		});
 }
 
 export async function deleteTask(id) {
@@ -77,7 +86,12 @@ export async function getUserFromUsername(username) {
 }
 
 export async function insertTodoGroup(userId, groupName) {
-	await db.none(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2)`, [userId, groupName]);
+	return await db.tx({ mode: txMode }, t => {
+		return t.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING id`, [userId, groupName])
+			.then(res => res.id);
+	}).catch(err => {
+		return -1;
+	});
 }
 
 export async function getGroupsFromUserId(userId) {
@@ -88,8 +102,17 @@ export async function getDefaultGroupId(userId) {
 	return await db.one(`SELECT MIN(id) FROM ${todoGroups} WHERE user_id = $1`, [userId]);
 }
 
-export async function insertGroup(userId, groupName) {
-	return await db.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING id`, [userId, groupName]);
+export async function deleteGroup(userId, groupId) {
+	return db.tx({ mode: txMode }, t => {
+		return t.none(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]).
+			then(() => {
+				return t.oneOrNone(`DELETE FROM ${todoGroups} WHERE user_id = $1 AND id = $2 RETURNING TRUE`, [userId, groupId])
+					.then(res => res != null);
+			}).catch(err => {
+				console.log(err);
+				return false;
+			});
+	});
 }
 
 export async function createTables(pathToSQL) {

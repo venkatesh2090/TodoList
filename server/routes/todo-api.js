@@ -4,16 +4,11 @@ const router = express.Router();
 import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
 import addRouter from './add/add';
 import getRouter from './add/get';
+import deleteRouter from './add/delete';
 
 router.use('/add', addRouter);
 router.use('/get', getRouter);
-
-router.get('/delete/:id', async function (req, res, next) {
-	const id = req.params.id;
-
-	await deleteTask(id);
-	res.status(202).send();
-});
+router.use('/delete', deleteRouter);
 
 router.get('/done/:id', async function (req, res, next) {
 	await taskDone(req.params.id);
@@ -22,9 +17,12 @@ router.get('/done/:id', async function (req, res, next) {
 
 router.get('/deleteDone', async function (req, res, next) {
 	const userId = req.session.user;
-	if (userId != null || userId != undefined)
+	if (userId != null || userId != undefined) {
 		await deleteDone(userId);
-	res.status(202).send();
+		res.status(202).send();
+	} else {
+		res.status(511).send();
+	}
 });
 
 export default router;

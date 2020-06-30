@@ -16,17 +16,16 @@ router.post('/', async function (req, res, next) {
 	const regEx = /^ *$/;
 	const userId = req.session.user;
 
-	let firstGroup;
-	if (req.body.gid == null || req.body.gid == undefined) {
-		firstGroup = await getDefaultGroupId(userId);
-		firstGroup = firstGroup.min;
-	}
-
+	let isError;
 	if (!regEx.test(task)) {
-		await insertTask(task, userId, req.body.gid || firstGroup);
+		if (!await insertTask(task, userId, req.body.gid))
+			isError = true;
 	}
 
-	res.redirect('/');
+	if (isError)
+		next(createError(500));
+	else
+		res.redirect('/');
 });
 
 /* GET home page. */
