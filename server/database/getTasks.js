@@ -49,12 +49,7 @@ export async function getDefaultTasks(userId) {
 
 export async function insertTask(task, userId, groupId) {
 	return await db.tx({ mode: txMode }, async t => {
-		let firstGroup;
-		if (groupId == null || groupId == undefined) {
-			firstGroup = await getDefaultGroupId(userId);
-			firstGroup = firstGroup.min;
-		}
-		db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId || firstGroup]);
+		db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
 	}).then(() => true)
 		.catch(err => {
 			console.log(err);
