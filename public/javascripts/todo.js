@@ -153,60 +153,61 @@ async function removeGroup(container) {
 	}
 }
 
-window.onload = function(event) {
-	document.querySelector('#list-container .active').childNodes.forEach(function(e, i, l) {
-		if (!e.classList.contains('done')) {
-			e.childNodes[1].onclick = async function(event) {
-				await doneElement(e);
-			};
-		}
-	});
-
-	document.querySelectorAll('.remove').forEach(element => element.onclick = async function (event) {
-		await deleteDone();
-	});
-
-	document.getElementById('side-menu-button').onclick = function (event) {
-		const sideMenu = document.getElementById('side-menu');
-		if (sideMenu.classList.contains('open')){
-			sideMenu.classList.remove('open');
-		} else {
-			sideMenu.classList.add('open');
-		}
+document.querySelector('#list-container .active').childNodes.forEach(function(e, i, l) {
+	if (!e.classList.contains('done')) {
+		e.childNodes[1].onclick = async function(event) {
+			await doneElement(e);
+		};
 	}
+});
 
-	document.getElementById('list-btn').onclick = function (event) {
+document.querySelectorAll('.remove').forEach(element => element.onclick = async function (event) {
+	await deleteDone();
+});
+
+document.getElementById('side-menu-button').onclick = function (event) {
+	const sideMenu = document.getElementById('side-menu');
+	if (sideMenu.classList.contains('open')){
+		sideMenu.classList.remove('open');
+	} else {
+		sideMenu.classList.add('open');
+	}
+}
+
+document.getElementById('list-btn').onclick = function (event) {
+	addList();
+}
+
+document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].addEventListener('keydown', function(event) {
+	if (event.code === 'Enter')
 		addList();
+});
+
+
+document.getElementById('groups-container').childNodes.forEach(function (e, i) {
+	e.childNodes[0].onclick = async function (event) {
+		await changeList(e.getAttribute('gid'));
 	}
 
-	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].addEventListener('keydown', function(event) {
-		if (event.code === 'Enter')
-			addList();
-	});
+	if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
+		e.classList.add('active');
+		changeList(e.getAttribute('gid'));
+	}
+});
 
+document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
+	const groupId = e.getAttribute('gid');
+	e.childNodes[1].onclick = async function() {
+		await removeGroup(e);
+	}
+});
+
+window.onload = function(event) {
 	if (window.sessionStorage.getItem('groupId') == null) {
 		let groupContainer = document.getElementById('groups-container').childNodes[0];
 		groupContainer.classList.add("active");
 		window.sessionStorage.setItem('groupId', groupContainer.getAttribute('gid'))
 	}
-
-	document.getElementById('groups-container').childNodes.forEach(function (e, i) {
-		e.childNodes[0].onclick = async function (event) {
-			await changeList(e.getAttribute('gid'));
-		}
-
-		if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
-			e.classList.add('active');
-			changeList(e.getAttribute('gid'));
-		}
-	});
-
-	document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
-		const groupId = e.getAttribute('gid');
-		e.childNodes[1].onclick = async function() {
-			await removeGroup(e);
-		}
-	});
 
 	if (document.querySelector('#groups-container .active') == null) {
 		document.querySelector('#groups-container div').classList.add('active');
