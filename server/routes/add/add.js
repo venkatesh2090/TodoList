@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { insertGroup, insertTask } from '../../database/getTasks';
+import { insertTodoGroup, insertTask } from '../../database/getTasks';
 
 router.post('/task', async function (req, res, next) {
 	const userId = req.session.user;
@@ -19,10 +19,11 @@ router.post('/group', async function (req, res, next) {
 	const groupName = req.body.group;
 
 	if ((userId != null || userId != undefined) && (groupName != null || groupName != undefined)) {
-		const group = await insertGroup(userId, groupName);
-		res.json({
-			groupId: group.id
-		});
+		if (await insertTodoGroup(userId, groupName)) {
+			res.status(202).send();
+		} else {
+			res.status(511).send();
+		}
 	} else {
 		res.status(511).send();
 	}
