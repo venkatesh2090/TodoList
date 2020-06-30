@@ -16,13 +16,12 @@ router.post('/', async function (req, res, next) {
 	const regEx = /^ *$/;
 	const userId = req.session.user;
 
-	let firstGroup;
-	if (req.body.gid == null || req.body.gid == undefined) {
-		firstGroup = await getDefaultGroupId(userId);
-		firstGroup = firstGroup.min;
-	}
-
 	if (!regEx.test(task)) {
+		let firstGroup;
+		if (req.body.gid == null || req.body.gid == undefined) {
+			firstGroup = await getDefaultGroupId(userId);
+			firstGroup = firstGroup.min;
+		}
 		await insertTask(task, userId, req.body.gid || firstGroup);
 	}
 
