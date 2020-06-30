@@ -17,7 +17,6 @@ router.post('/task', async function (req, res, next) {
 router.post('/group', async function (req, res, next) {
 	const userId = req.session.user;
 	const groupName = req.body.group;
-	console.log(JSON.stringify(req.body));
 
 	if ((userId != null || userId != undefined) && (groupName != null || groupName != undefined)) {
 		const group = await insertGroup(userId, groupName);
