@@ -137,7 +137,9 @@ async function changeList(groupId) {
 		const data = await fetch(req).then(res => res.json());
 		renderTodos(data, groupId);
 	} else {
-		document.querySelector('#list-container .active').className = '';
+		try {
+			document.querySelector('#list-container .active').className = '';
+		} catch(err) {}
 		document.querySelector(`#list-container div[gid="${groupId}"`).classList.add('active');
 	}
 };
@@ -160,14 +162,6 @@ async function removeGroup(container) {
 		document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
 	}
 }
-
-document.querySelector('#list-container div').childNodes.forEach(function(e, i, l) {
-	if (!e.classList.contains('done')) {
-		e.childNodes[1].onclick = async function(event) {
-			await doneElement(e);
-		};
-	}
-});
 
 document.querySelectorAll('.remove').forEach(element => element.onclick = async function (event) {
 	await deleteDone();
