@@ -4,9 +4,11 @@ const router = express.Router();
 import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
 import addRouter from './add/add';
 import getRouter from './add/get';
+import deleteRouter from './add/delete';
 
 router.use('/add', addRouter);
 router.use('/get', getRouter);
+router.use('/delete', deleteRouter);
 
 router.get('/done/:id', async function (req, res, next) {
 	await taskDone(req.params.id);
