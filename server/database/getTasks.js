@@ -47,8 +47,19 @@ export async function getDefaultTasks(userId) {
 	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1) ORDER BY id ASC`, [userId]);
 }
 
-export function insertTask(task, userId, groupId) {
-	return db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId]);
+export async function insertTask(task, userId, groupId) {
+	return await db.tx({ mode: txMode }, async t => {
+		let firstGroup;
+		if (groupId == null || groupId == undefined) {
+			firstGroup = await getDefaultGroupId(userId);
+			firstGroup = firstGroup.min;
+		}
+		db.none(`INSERT INTO ${todoTable} (todo, user_id, todo_group) VALUES ($1, $2, $3)`, [task, userId, groupId || firstGroup]);
+	}).then(() => true)
+		.catch(err => {
+			console.log(err);
+			return false
+		});
 }
 
 export async function deleteTask(id) {
