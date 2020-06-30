@@ -132,6 +132,10 @@ async function changeList(groupId) {
 	}
 };
 
+function removeGroup(container) {
+	// TODO: integrate with back end
+}
+
 window.onload = function(event) {
 	document.querySelector('#list-container .active').childNodes.forEach(function(e, i, l) {
 		if (!e.classList.contains('done')) {
@@ -177,6 +181,13 @@ window.onload = function(event) {
 		if (e.getAttribute('gid') == window.sessionStorage.getItem('groupId')) {
 			e.classList.add('active');
 			changeList(e.getAttribute('gid'));
+		}
+	});
+
+	document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
+		const groupId = e.getAttribute('gid');
+		e.childNodes[1].onclick = function() {
+			removeGroup(e);
 		}
 	});
 
