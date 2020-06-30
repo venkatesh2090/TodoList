@@ -80,7 +80,12 @@ export async function getUserFromUsername(username) {
 }
 
 export async function insertTodoGroup(userId, groupName) {
-	await db.none(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2)`, [userId, groupName]);
+	return await db.tx({ mode: txMode }, t => {
+		return t.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING TRUE`, [userId, groupName]);
+	}).catch(err => {
+		console.log(err);
+		return false;
+	});
 }
 
 export async function getGroupsFromUserId(userId) {
