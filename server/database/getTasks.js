@@ -98,8 +98,8 @@ export async function getDefaultGroupId(userId) {
 
 export async function deleteGroup(userId, groupId) {
 	return db.tx({ mode: txMode }, t => {
-		return t.oneOrNone(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2 RETURNING TRUE`, [userId, groupId]).
-			then(todo => {
+		return t.none(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]).
+			then(() => {
 				return t.oneOrNone(`DELETE FROM ${todoGroups} WHERE user_id = $1 AND id = $2 RETURNING TRUE`, [userId, groupId])
 					.then(res => res != null);
 			}).catch(err => {
