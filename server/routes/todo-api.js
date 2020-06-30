@@ -8,13 +8,6 @@ import getRouter from './add/get';
 router.use('/add', addRouter);
 router.use('/get', getRouter);
 
-router.get('/delete/:id', async function (req, res, next) {
-	const id = req.params.id;
-
-	await deleteTask(id);
-	res.status(202).send();
-});
-
 router.get('/done/:id', async function (req, res, next) {
 	await taskDone(req.params.id);
 	res.status(202).send();
