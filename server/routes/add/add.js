@@ -19,8 +19,13 @@ router.post('/group', async function (req, res, next) {
 	const groupName = req.body.group;
 
 	if ((userId != null || userId != undefined) && (groupName != null || groupName != undefined)) {
-		if (await insertTodoGroup(userId, groupName)) {
-			res.status(202).send();
+		const id = await insertTodoGroup(userId, groupName);
+		if (id != -1) {
+			const data = {
+				groupId: id
+			};
+			console.log(JSON.stringify(data));
+			res.json(data).send();
 		} else {
 			res.status(511).send();
 		}

@@ -87,10 +87,10 @@ export async function getUserFromUsername(username) {
 
 export async function insertTodoGroup(userId, groupName) {
 	return await db.tx({ mode: txMode }, t => {
-		return t.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING TRUE`, [userId, groupName]);
+		return t.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING id`, [userId, groupName])
+			.then(res => res.id);
 	}).catch(err => {
-		console.log(err);
-		return false;
+		return -1;
 	});
 }
 

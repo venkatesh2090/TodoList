@@ -45,10 +45,14 @@ async function addList() {
 		})
 	});
 
-	const res = await fetch(req).then(res => res.status);
-
-	if (res == 202) {
+	fetch(req).then(res => {
+		if (res.status === 200)
+			return res.json();
+		else
+			throw "Couldn't insert group";
+	}).then(res => {
 		let group = document.createElement('div');
+		console.log(JSON.stringify(res.groupId));
 		group.setAttribute('gid', res.groupId);
 
 		let name = document.createElement('p');
@@ -61,9 +65,9 @@ async function addList() {
 		document.getElementById('groups-container').appendChild(group);
 
 		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
-	} else {
-		alert ("Couldn't insert group");
-	}
+	}).catch(err => {
+		alert(err);
+	});
 }
 
 function renderTodos(data, groupId) {
