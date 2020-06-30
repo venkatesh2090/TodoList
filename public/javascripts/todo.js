@@ -45,21 +45,25 @@ async function addList() {
 		})
 	});
 
-	const res = await fetch(req).then(res => res.json());
+	const res = await fetch(req).then(res => res.status);
 
-	let group = document.createElement('div');
-	group.setAttribute('gid', res.groupId);
+	if (res == 202) {
+		let group = document.createElement('div');
+		group.setAttribute('gid', res.groupId);
 
-	let name = document.createElement('p');
-	name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
+		let name = document.createElement('p');
+		name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
 
-	group.appendChild(name);
+		group.appendChild(name);
 
-	group.onclick = event => changeList(res.groupId);
+		group.onclick = event => changeList(res.groupId);
 
-	document.getElementById('groups-container').appendChild(group);
+		document.getElementById('groups-container').appendChild(group);
 
-	document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
+		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
+	} else {
+		alert ("Couldn't insert group");
+	}
 }
 
 function renderTodos(data, groupId) {
