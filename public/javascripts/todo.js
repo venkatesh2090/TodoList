@@ -204,6 +204,7 @@ window.onload = function(event) {
 		let groupContainer = document.getElementById('groups-container').childNodes[0];
 		groupContainer.classList.add("active");
 		window.sessionStorage.setItem('groupId', groupContainer.getAttribute('gid'))
+		changeList(groupContainer.getAttribute('gid'));
 	} else {
 		const groupId = window.sessionStorage.getItem('groupId');
 		document.querySelector(`#groups-container div[gid="${groupId}"]`).classList.add('active');
