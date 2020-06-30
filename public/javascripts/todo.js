@@ -146,20 +146,25 @@ async function changeList(groupId) {
 
 async function removeGroup(container) {
 	const groupId = container.getAttribute('gid');
-	const url = `/api/delete/group/${groupId}`;
-
-	const req = new Request(url, {
-		method: 'GET'
-	});
-
-	const res = await fetch(req).then(res => res.status);
-
-	console.log(res);
-	if (res === 511)
-		alert("Couldn't delete group");
+	if (groupId == window.sessionStorage.getItem('groupId')) {
+		document.querySelector('#remove-target .modal-dialog .modal-content .modal-footer small').classList.remove('d-none');
+	}
 	else {
-		container.remove();
-		document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
+		const url = `/api/delete/group/${groupId}`;
+
+		const req = new Request(url, {
+			method: 'GET'
+		});
+
+		const res = await fetch(req).then(res => res.status);
+
+		console.log(res);
+		if (res === 511)
+			alert("Couldn't delete group");
+		else {
+			container.remove();
+			document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
+		}
 	}
 }
 
@@ -197,6 +202,10 @@ document.querySelector('#remove-target .modal-dialog .modal-content .modal-body'
 	e.childNodes[1].onclick = async function() {
 		await removeGroup(e);
 	}
+});
+
+$('#remove-target').on('hide.bs.modal', () => {
+	document.querySelector('#remove-target .modal-dialog .modal-content .modal-footer small').classList.add('d-none');
 });
 
 window.onload = function(event) {
