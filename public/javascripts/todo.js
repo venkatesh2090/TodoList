@@ -73,8 +73,6 @@ function renderTodos(data, groupId) {
 
 	if (data.length != 0) {
 		data.forEach(function(row) {
-			console.log(JSON.stringify(row));
-
 			const element = document.createElement('div');
 			element.className = 'w-100 d-flex flex-row align-items-center justify-content-between';
 			element.setAttribute('id', row.id);
