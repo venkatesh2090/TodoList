@@ -130,8 +130,23 @@ async function changeList(groupId) {
 	}
 };
 
-function removeGroup(container) {
-	// TODO: integrate with back end
+async function removeGroup(container) {
+	const groupId = container.getAttribute('gid');
+	const url = `/api/delete/group/${groupId}`;
+
+	const req = new Request(url, {
+		method: 'GET'
+	});
+
+	const res = await fetch(req).then(res => res.status);
+
+	console.log(res);
+	if (res === 511)
+		alert("Couldn't delete group");
+	else {
+		container.remove();
+		document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
+	}
 }
 
 window.onload = function(event) {
@@ -184,8 +199,8 @@ window.onload = function(event) {
 
 	document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
 		const groupId = e.getAttribute('gid');
-		e.childNodes[1].onclick = function() {
-			removeGroup(e);
+		e.childNodes[1].onclick = async function() {
+			await removeGroup(e);
 		}
 	});
 
