@@ -22,7 +22,7 @@ router.post('/group', async function (req, res, next) {
 			groupId: group.id
 		});
 	} else {
-		res.status(404).send();
+		res.status(511).send();
 	}
 });
 
