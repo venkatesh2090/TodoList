@@ -47,7 +47,7 @@ block content
 					div.remove.align-self-end.d-sm-flex.flex-column.align-items-center.d-none
 						div
 			div.w-75.container.flex-column.d-flex.pt-3.px-0#list-container
-				div.active(gid=groupVal)
+				div(gid=groupVal)
 					each val in tasks
 						if val.is_done
 							div.w-100.d-flex.flex-row.align-items-center.justify-content-between.done(id=val.id)

@@ -73,7 +73,11 @@ async function addList() {
 function renderTodos(data, groupId) {
 	const container = document.getElementById('list-container');
 
-	document.querySelector('#list-container .active').className = '';
+	try {
+		document.querySelector('#list-container .active').className = '';
+	}
+	catch (err) {}
+	
 
 	const listDiv = document.createElement('div');
 	listDiv.classList.add('active');
@@ -157,7 +161,7 @@ async function removeGroup(container) {
 	}
 }
 
-document.querySelector('#list-container .active').childNodes.forEach(function(e, i, l) {
+document.querySelector('#list-container div').childNodes.forEach(function(e, i, l) {
 	if (!e.classList.contains('done')) {
 		e.childNodes[1].onclick = async function(event) {
 			await doneElement(e);
