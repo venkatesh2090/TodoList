@@ -5,6 +5,7 @@ const todoGroups = 'todo_groups';
 const todoUsers = 'todo_users';
 
 const QueryFile = _pgp.QueryFile;
+const TransactionMode = _pgp.txMode.TransactionMode;
 const pgp = _pgp({
 	connect(client, dc, useCount) {
 		console.log(`Activity on: ${client.database}`);
@@ -31,6 +32,8 @@ const config = {
 };
 
 const db = pgp(config);
+
+const txMode = new TransactionMode();
 
 export async function getAllTasks(userId) {
 	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 ORDER BY id ASC`, [userId]);
@@ -90,6 +93,19 @@ export async function getDefaultGroupId(userId) {
 
 export async function insertGroup(userId, groupName) {
 	return await db.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING id`, [userId, groupName]);
+}
+
+export async function deleteGroup(userId, groupId) {
+	return db.tx({ mode: txMode }, t => {
+		return t.oneOrNone(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2 RETURNING TRUE`, [userId, groupId]).
+			then(todo => {
+				return t.oneOrNone(`DELETE FROM ${todoGroups} WHERE user_id = $1 AND id = $2 RETURNING TRUE`, [userId, groupId])
+					.then(res => res != null);
+			}).catch(err => {
+				console.log(err);
+				return false;
+			});
+	});
 }
 
 export async function createTables(pathToSQL) {
