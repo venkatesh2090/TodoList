@@ -40,11 +40,11 @@ export async function getAllTasks(userId) {
 }
 
 export async function getTaskByGroupId(userId, groupId) {
-	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]);
+	return await db.any(`SELECT * FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2 ORDER BY id ASC`, [userId, groupId]);
 }
 
 export async function getDefaultTasks(userId) {
-	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1)`, [userId]);
+	return await db.any(`SELECT id, todo, is_done FROM ${todoTable} WHERE todo_group = (SELECT MIN(todo_group) FROM ${todoTable} WHERE user_id = $1) ORDER BY id ASC`, [userId]);
 }
 
 export function insertTask(task, userId, groupId) {
