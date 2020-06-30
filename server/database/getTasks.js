@@ -96,10 +96,6 @@ export async function getDefaultGroupId(userId) {
 	return await db.one(`SELECT MIN(id) FROM ${todoGroups} WHERE user_id = $1`, [userId]);
 }
 
-export async function insertGroup(userId, groupName) {
-	return await db.one(`INSERT INTO ${todoGroups} (user_id, group_name) VALUES ($1, $2) RETURNING id`, [userId, groupName]);
-}
-
 export async function deleteGroup(userId, groupId) {
 	return db.tx({ mode: txMode }, t => {
 		return t.oneOrNone(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2 RETURNING TRUE`, [userId, groupId]).
