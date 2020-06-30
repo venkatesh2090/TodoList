@@ -17,9 +17,12 @@ router.get('/done/:id', async function (req, res, next) {
 
 router.get('/deleteDone', async function (req, res, next) {
 	const userId = req.session.user;
-	if (userId != null || userId != undefined)
+	if (userId != null || userId != undefined) {
 		await deleteDone(userId);
-	res.status(202).send();
+		res.status(202).send();
+	} else {
+		res.status(511).send();
+	}
 });
 
 export default router;

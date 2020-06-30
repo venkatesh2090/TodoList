@@ -5,10 +5,13 @@ import { insertGroup, insertTask } from '../../database/getTasks';
 
 router.post('/task', async function (req, res, next) {
 	const userId = req.session.user;
-	if (userId != null || userId != undefined)
+	if (userId != null || userId != undefined) {
 		await insertTask(req.body.task, userId)
 			.catch(err => console.log(err));
-	res.status(202).send();
+		res.status(202).send();
+	} else {
+		res.status(511).send();
+	}
 });
 
 router.post('/group', async function (req, res, next) {
