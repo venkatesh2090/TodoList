@@ -26,7 +26,7 @@ block content
 							Modal Content
 						div.modal-body
 							each group in groupList
-								div.d-flex.flex-row.align-items-center.w-100.justify-content-between.my-1
+								div.d-flex.flex-row.align-items-center.w-100.justify-content-between.my-1(gid=group.id)
 									p.my-0= group.group_name
 									input.btn.btn-warning(type='button' value='Remove')
 						div.modal-footer
