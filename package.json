@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm-run-all build prod",
     "transpile": "babel ./server --out-dir dist-server",
     "clean": "rm -rf ./dist-server",
     "dev": "NODE_ENV=development node ./dist-server/bin/www.js",
-    "prod": "NODE_ENV=production node ./dist-server/bin/www.js",
+    "start": "NODE_ENV=production node ./dist-server/bin/www.js",
     "build": "npm-run-all clean transpile",
     "start-dev": "npm-run-all build dev",
     "webpack-build": "webpack"
