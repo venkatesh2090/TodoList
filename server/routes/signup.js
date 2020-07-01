@@ -14,7 +14,6 @@ router.post('/', async function (req, res, next) {
 
 	if (!isUser && !isEmail) {
 		await insertUser(req.body.username, req.body.password, req.body.email);
-		console.log(`${req.body.username} ${req.body.password} ${req.body.email}`);
 		const userId = await getUserFromUsername(req.body.username).then(res => res.id);
 		req.session.user = userId;
 
