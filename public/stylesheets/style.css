@@ -60,7 +60,7 @@ a {
 #side-menu.open {
   width: var(--side-menu-width);
   animation-name: slide-open;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 #side-menu-button:hover {
