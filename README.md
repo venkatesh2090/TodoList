@@ -1,9 +1,12 @@
 # TODO List server
 
-This is a server made in nodejs, express and postgreSQL for managing tasks using TODO Lists
+This is a http server of TODO Lists
 
-## Pre-build requirements
-- docker
+## Technologies Used
+- Nodejs
+- Expressjs
+- PostgreSQL
+- Bootstrap
 
 ## Run app locally
 ```bash
