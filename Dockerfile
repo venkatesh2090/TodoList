@@ -1,4 +1,4 @@
-FROM node:14.4.0-alpine3.10
+FROM node:12.18.2-alpine3.9
 WORKDIR /code
 COPY package.json package.json
 RUN npm i
