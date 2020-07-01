@@ -24,16 +24,7 @@ const pgp = _pgp({
 	}
 });
 
-const config = {
-	host: 'postgres',
-	port: 5432,
-	database: 'postgres',
-	user: 'postgres',
-	password: 'trust'
-};
-
 const connectionString = process.env.DATABASE_URL;
-console.log(process.env.DATABASE_URL);
 const db = pgp(connectionString);
 
 const txMode = new TransactionMode();
