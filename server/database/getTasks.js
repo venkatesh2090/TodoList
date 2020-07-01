@@ -1,4 +1,5 @@
 import _pgp from 'pg-promise';
+import process from 'process';
 
 const todoTable = 'todos';
 const todoGroups = 'todo_groups';
@@ -31,7 +32,8 @@ const config = {
 	password: 'trust'
 };
 
-const db = pgp(config);
+const connectionString = process.env.DATABASE_URL;
+const db = pgp(connectionString);
 
 const txMode = new TransactionMode();
 
