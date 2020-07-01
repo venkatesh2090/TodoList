@@ -24,9 +24,9 @@ const pgp = _pgp({
 });
 
 const config = {
-	host: 'localhost',
+	host: 'postgres',
 	port: 5432,
-	database: 'todo_list',
+	database: 'postgres',
 	user: 'postgres',
 	password: 'trust'
 };
