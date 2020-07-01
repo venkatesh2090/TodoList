@@ -5,6 +5,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import Keygrip from 'keygrip';
+import compression from 'compression';
 
 import logger from 'morgan';
 
@@ -43,6 +44,8 @@ app.use(function (req, res, next) {
 		next();
 	}
 });
+app.use(compression());
+
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);
