@@ -33,6 +33,7 @@ const config = {
 };
 
 const connectionString = process.env.DATABASE_URL;
+console.log(process.env.DATABASE_URL);
 const db = pgp(connectionString);
 
 const txMode = new TransactionMode();
