@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { userExists, getUserFromUsername } from '../database/getTasks';
+import bcrypt from 'bcrypt';
 
 router.get('/', function (req, res, next) {
 	res.render('login', {
@@ -17,17 +18,21 @@ router.post('/', async function (req, res, next) {
 
 	if (queryRes.exists) {
 		queryRes = await getUserFromUsername(username);
-		if (queryRes.password == req.body.password) {
-			req.session.user = queryRes.id;
-			res.redirect('/');
-		} else {
-			res.render('login', {
-				title: 'Login',
-				failed: true,
-				logout: false,
-				notExists: false
-			});
-		}
+		const hash = queryRes.password;
+		await bcrypt.compare(req.body.password, hash).then(isEqual => {
+			if (isEqual) {
+				req.session.user = queryRes.id;
+				res.redirect('/');
+			}
+			else {
+				res.render('login', {
+					title: 'Login',
+					failed: true,
+					logout: false,
+					notExists: false
+				});
+			}
+		});
 	} else {
 		res.render('login', {
 			title: 'Login',
