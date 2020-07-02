@@ -8,10 +8,10 @@ async function doneElement(element) {
 	const response = await fetch(url, config);
 	if (!response.ok) {
 		alert(`Could not delete ${id}`);
+	} else {
+		element.classList += ' done';
+		element.childNodes[1].remove();
 	}
-
-	element.classList += ' done';
-	element.childNodes[1].remove();
 }
 
 async function deleteDone() {
