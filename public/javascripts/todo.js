@@ -52,7 +52,6 @@ async function addList() {
 			throw "Couldn't insert group";
 	}).then(res => {
 		let group = document.createElement('div');
-		console.log(JSON.stringify(res.groupId));
 		group.setAttribute('gid', res.groupId);
 
 		let name = document.createElement('p');
@@ -158,7 +157,6 @@ async function removeGroup(container) {
 
 		const res = await fetch(req).then(res => res.ok);
 
-		console.log(res);
 		if (!res)
 			alert("Couldn't delete group");
 		else {
