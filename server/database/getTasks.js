@@ -55,8 +55,14 @@ export async function deleteTask(id) {
 	await db.none(`DELETE FROM ${todoTable} WHERE id = $1`, [id]);
 }
 
-export async function taskDone(id) {
-	await db.none(`UPDATE ${todoTable} t SET is_done=TRUE WHERE t.id = $1`, [id]);
+export async function taskDone(userId, id) {
+	return await db.tx({ mode: txMode }, t => {
+		return db.oneOrNone(`UPDATE ${todoTable} t SET is_done = TRUE WHERE t.id = $2 AND t.user_id = $1 RETURNING TRUE`, [userId, id]);
+	}).then(res => res != null)
+		.catch(err => {
+			console.error(err);
+			return false;
+	});
 }
 
 export async function deleteDone(userId) {
