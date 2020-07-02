@@ -79,10 +79,10 @@ a {
 }
 
 #side-menu-button div {
-  height: 5px;
+  height: 3px;
   width: 100%;
   background-color: black;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 div.remove {
