@@ -8,10 +8,10 @@ async function doneElement(element) {
 	const response = await fetch(url, config);
 	if (!response.ok) {
 		alert(`Could not delete ${id}`);
+	} else {
+		element.classList += ' done';
+		element.childNodes[1].remove();
 	}
-
-	element.classList += ' done';
-	element.childNodes[1].remove();
 }
 
 async function deleteDone() {
@@ -46,17 +46,18 @@ async function addList() {
 	});
 
 	fetch(req).then(res => {
-		if (res.status === 200)
+		if (res.ok)
 			return res.json();
 		else
 			throw "Couldn't insert group";
 	}).then(res => {
 		let group = document.createElement('div');
-		console.log(JSON.stringify(res.groupId));
 		group.setAttribute('gid', res.groupId);
 
+		const groupName = document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value;
+
 		let name = document.createElement('p');
-		name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
+		name.appendChild(document.createTextNode(groupName));
 
 		group.appendChild(name);
 
@@ -64,6 +65,26 @@ async function addList() {
 
 		document.getElementById('groups-container').appendChild(group);
 
+
+		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
+		
+		let container = document.createElement('div');
+		container.className = 'd-flex flex-row algin-items-center w-100 justify-content-between my-1';
+		container.setAttribute('gid', res.groupId);
+
+		name = document.createElement('p');
+		name.appendChild(document.createTextNode(groupName));
+		container.appendChild(name);
+
+		const removeButton = document.createElement('input');
+		removeButton.setAttribute('type', 'button');
+		removeButton.value = 'Remove';
+		removeButton.classList = 'btn btn-warning';
+		removeButton.onclick = e => removeGroup(container);
+		container.appendChild(removeButton);
+
+		removeModal.appendChild(container);
+		
 		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 	}).catch(err => {
 		alert(err);
@@ -156,10 +177,9 @@ async function removeGroup(container) {
 			method: 'GET'
 		});
 
-		const res = await fetch(req).then(res => res.status);
+		const res = await fetch(req).then(res => res.ok);
 
-		console.log(res);
-		if (res === 511)
+		if (!res)
 			alert("Couldn't delete group");
 		else {
 			container.remove();
