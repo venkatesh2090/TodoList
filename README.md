@@ -15,4 +15,3 @@ docker-compose up
 
 ## Future features
 - use webpack (currently not in use)
-- password encryption
