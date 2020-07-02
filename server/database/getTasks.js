@@ -72,7 +72,12 @@ export async function emailExists(email) {
 }
 
 export async function insertUser(username, password, email) {
-	await db.none(`INSERT INTO ${todoUsers} (username, password, email) VALUES ($1, $2, $3)`, [username, password, email]);
+	return await db.tx({ mode: txMode }, t => {
+		return t.one(`INSERT INTO ${todoUsers} (username, password, email) VALUES ($1, $2, $3) RETURNING id`, [username, password, email]).then(res => res.id);
+	}).catch(err => {
+		console.error(err);
+		return -1;
+	});
 }
 
 export async function getUserFromUsername(username) {
