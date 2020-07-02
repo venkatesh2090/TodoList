@@ -54,8 +54,10 @@ async function addList() {
 		let group = document.createElement('div');
 		group.setAttribute('gid', res.groupId);
 
+		const groupName = document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value;
+
 		let name = document.createElement('p');
-		name.appendChild(document.createTextNode(document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value));
+		name.appendChild(document.createTextNode(groupName));
 
 		group.appendChild(name);
 
@@ -63,6 +65,26 @@ async function addList() {
 
 		document.getElementById('groups-container').appendChild(group);
 
+
+		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
+		
+		let container = document.createElement('div');
+		container.className = 'd-flex flex-row algin-items-center w-100 justify-content-between my-1';
+		container.setAttribute('gid', res.groupId);
+
+		name = document.createElement('p');
+		name.appendChild(document.createTextNode(groupName));
+		container.appendChild(name);
+
+		const removeButton = document.createElement('input');
+		removeButton.setAttribute('type', 'button');
+		removeButton.value = 'Remove';
+		removeButton.classList = 'btn btn-warning';
+		removeButton.onclick = e => removeGroup(container);
+		container.appendChild(removeButton);
+
+		removeModal.appendChild(container);
+		
 		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 	}).catch(err => {
 		alert(err);
