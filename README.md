@@ -1,7 +1,7 @@
 # TODO List server
 
 This is a http server of TODO Lists.
-The app is deplayed on heroku [here](https://arctic-drake-04002.herokuapp.com/)
+The app is deployed on heroku [here](https://arctic-drake-04002.herokuapp.com/)
 
 ## Technologies Used
 - Nodejs
