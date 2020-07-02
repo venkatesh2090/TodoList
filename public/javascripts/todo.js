@@ -46,7 +46,7 @@ async function addList() {
 	});
 
 	fetch(req).then(res => {
-		if (res.status === 200)
+		if (res.ok)
 			return res.json();
 		else
 			throw "Couldn't insert group";
@@ -156,10 +156,10 @@ async function removeGroup(container) {
 			method: 'GET'
 		});
 
-		const res = await fetch(req).then(res => res.status);
+		const res = await fetch(req).then(res => res.ok);
 
 		console.log(res);
-		if (res === 511)
+		if (!res)
 			alert("Couldn't delete group");
 		else {
 			container.remove();
