@@ -2,9 +2,9 @@ import express from 'express';
 const router = express.Router();
 
 import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../database/getTasks';
-import addRouter from './add/add';
-import getRouter from './add/get';
-import deleteRouter from './add/delete';
+import addRouter from './operations/add';
+import getRouter from './operations/get';
+import deleteRouter from './operations/delete';
 
 router.use('/add', addRouter);
 router.use('/get', getRouter);
