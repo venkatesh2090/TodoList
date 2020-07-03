@@ -68,23 +68,17 @@ async function addList() {
 
 		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
 		
-		let container = document.createElement('div');
-		container.className = 'd-flex flex-row algin-items-center w-100 justify-content-between my-1';
-		container.setAttribute('gid', res.groupId);
+		removeModal.innerHTML += `
+			<div class="d-flex flex-row algin-items-center w-100 justify-content-between my-1" gid="${res.groupId}">
+				<p class="my-0"> 
+					${groupName} 
+				</p>
 
-		name = document.createElement('p');
-		name.appendChild(document.createTextNode(groupName));
-		container.appendChild(name);
+				<input type="button" class="btn btn-warning" value="Remove"/>
+			</div>
+		`;
+		removeModal.querySelector(`div[gid="${res.groupId}"] input[type="button"]`).onclick = e => removeGroup(removeModal.querySelector(`div[gid="${res.groupId}"]`));
 
-		const removeButton = document.createElement('input');
-		removeButton.setAttribute('type', 'button');
-		removeButton.value = 'Remove';
-		removeButton.classList = 'btn btn-warning';
-		removeButton.onclick = e => removeGroup(container);
-		container.appendChild(removeButton);
-
-		removeModal.appendChild(container);
-		
 		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
 	}).catch(err => {
 		alert(err);
