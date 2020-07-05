@@ -23,10 +23,6 @@ router.post('/', async function (req, res, next) {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-	let todos = await getDefaultTasks(req.session.user);
-	if (todos.length == 0)
-		todos = await getDefaultGroupId(req.session.user).then(res => res.min);
-
 	let groups = await getGroupsFromUserId(req.session.user);
 
 	res.render('index', {
