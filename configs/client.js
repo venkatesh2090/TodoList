@@ -35,9 +35,9 @@ module.exports = {
       ]
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
+			template: 'public/test/index.html',
 			title: 'Retry'
     })
   ],
