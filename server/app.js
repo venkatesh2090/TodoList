@@ -1,6 +1,7 @@
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
+import { promises as fsPromises } from 'fs';
 
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
@@ -34,6 +35,7 @@ app.use(cookieSession({
 }));
 
 app.use('/static', express.static(path.join(__dirname, '../public')));
+app.use('/static', express.static(path.join(__dirname, '../dist')));
 
 app.use(function (req, res, next) {
 	const regEx = /^(\/(login|static|signup))/
@@ -51,6 +53,20 @@ app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
+app.use('/webpack', async function(req, res, next) {
+	let fh;
+	let html;
+	try {
+		fh = await fsPromises.open(path.join(__dirname, 'index.html'), 'r');
+	} catch(err) {
+		console.log(err);
+	} finally {
+		html = await fh.readFile({ encoding: 'utf8' });
+
+		await fh.close();
+	}
+	res.send(html);
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
