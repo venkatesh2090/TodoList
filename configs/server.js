@@ -8,6 +8,7 @@ module.exports = {
 	entry: {
 		server: './server/bin/www.js'
 	},
+	devtool: 'inline-source-map',
 	output: {
 		filename: '[name].js',
 		path: path.resolve(__dirname, '../dist')
