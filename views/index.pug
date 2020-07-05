@@ -12,7 +12,7 @@ block content
 				div.form-group
 					input.form-control.btn.btn-primary(type='submit' value='New List')
 				div.form-group
-					input#list-remove.form-control.btn.btn-danger(type='button' value='Remove List' data-toggle='modal' data-target='#remove-target')
+					input.form-control.btn.btn-danger(type='button' value='Remove List' data-toggle='modal' data-target='#remove-target')
 			div#groups-container.d-flex.flex-column.align-items-center
 				each group in groupList
 					div(gid= group.id)
