@@ -1,11 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const pug = require('pug');
 module.exports = {
   mode: 'development',
   entry: {
-    client: './public/test/script.js'
+    client: './public/test/index.jsx'
   },
   output: {
 		filename: '[name].[contentHash].bundle.js',
