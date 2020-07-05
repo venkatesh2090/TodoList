@@ -5,11 +5,12 @@ const pug = require('pug');
 module.exports = {
   mode: 'development',
   entry: {
-    app: './public/test/script.js'
+    client: './public/test/script.js'
   },
   output: {
 		filename: '[name].[contentHash].bundle.js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist'),
+		publicPath: 'static'
   },
   devtool: 'inline-source-map',
   module: {
@@ -30,5 +31,10 @@ module.exports = {
       filename: 'index.html',
 			title: 'Retry'
     })
-  ]
+  ],
+	optimization: {
+		splitChunks: {
+			chunks: 'all'
+		}
+	}
 };
