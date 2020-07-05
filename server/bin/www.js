@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
@@ -9,6 +7,7 @@ import debugLib from 'debug';
 import http from 'http';
 import { createTables } from '../database/getTasks.js';
 import path from 'path';
+import sqlFile from '../../create_db.sql';
 
 const debug = debugLib('express-example:server');
 
@@ -24,7 +23,7 @@ app.set('port', port);
  * Create database tables
  */
 
-createTables(path.join(__dirname, '../../create_db.sql'));
+createTables(path.join(__dirname, sqlFile));
 
 /**
  * Create HTTP server.
