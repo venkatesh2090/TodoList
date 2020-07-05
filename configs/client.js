@@ -16,6 +16,22 @@ module.exports = {
     rules:
       [
 				{
+					test: /\.pug$/,
+					use: [
+						{
+							loader: 'apply-loader',
+							options: {
+								obj: {
+									title: 'React'
+								}
+							}
+						},
+						{
+							loader: 'pug-loader',
+						}
+					]
+				},
+				{
 					test: /\.jsx$/,
 					use: {
 						loader: 'babel-loader',
@@ -36,7 +52,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-			template: 'public/test/index.html',
+			template: 'public/test/index.pug',
 			title: 'Retry'
     })
   ],
