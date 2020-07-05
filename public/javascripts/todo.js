@@ -32,7 +32,7 @@ async function deleteDone() {
 
 }
 
-async function addList() {
+function addList(groupName) {
 	const url = '/api/add/group';
 
 	const req = new Request(url, {
@@ -41,7 +41,7 @@ async function addList() {
 			'Content-Type': 'application/json'
 		}),
 		body: JSON.stringify({
-			group: document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value
+			group: groupName
 		})
 	});
 
@@ -53,8 +53,6 @@ async function addList() {
 	}).then(res => {
 		let group = document.createElement('div');
 		group.setAttribute('gid', res.groupId);
-
-		const groupName = document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value;
 
 		let name = document.createElement('p');
 		name.appendChild(document.createTextNode(groupName));
@@ -68,18 +66,22 @@ async function addList() {
 
 		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
 		
-		removeModal.innerHTML += `
-			<div class="d-flex flex-row algin-items-center w-100 justify-content-between my-1" gid="${res.groupId}">
-				<p class="my-0"> 
-					${groupName} 
-				</p>
+		let container = document.createElement('div');
+		container.className = "d-flex flex-row algin-items-center w-100 justify-content-between my-1";
+		container.setAttribute('gid', res.groupId);
 
-				<input type="button" class="btn btn-warning" value="Remove"/>
-			</div>
+		container.innerHTML = `
+			<p class="my-0"> 
+				${groupName} 
+			</p>
+
+			<input type="button" class="btn btn-warning" value="Remove" />
 		`;
-		removeModal.querySelector(`div[gid="${res.groupId}"] input[type="button"]`).onclick = e => removeGroup(removeModal.querySelector(`div[gid="${res.groupId}"]`));
+		removeModal.appendChild(container);
 
-		document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].value = '';
+		removeModal.querySelector(`div[gid="${res.groupId}"] input[type="button"]`).onclick =  async e => await removeGroup(res.groupId);
+
+		document.querySelector('#list-form input[type="text"]').value = '';
 	}).catch(err => {
 		alert(err);
 	});
@@ -194,15 +196,11 @@ document.getElementById('side-menu-button').onclick = function (event) {
 	}
 }
 
-document.getElementById('list-btn').onclick = function (event) {
-	addList();
-}
-
-document.getElementById('side-menu').childNodes[0].childNodes[0].childNodes[0].addEventListener('keydown', function(event) {
-	if (event.code === 'Enter')
-		addList();
+document.getElementById('list-form').addEventListener('submit', function(event) {
+	const formData = new FormData(event.target);
+	addList(formData.get('group'));
+	event.preventDefault();
 });
-
 
 document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 	e.childNodes[0].onclick = async function (event) {
