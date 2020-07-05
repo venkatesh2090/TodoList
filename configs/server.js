@@ -29,7 +29,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })
+		new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })
 	],
 	node: {
 		__dirname: false

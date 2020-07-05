@@ -2,19 +2,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pug = require('pug');
 module.exports = {
-  mode: 'development',
-  entry: {
-    client: './public/test/index.jsx'
-  },
-  output: {
+	mode: 'development',
+	entry: {
+		client: './public/test/index.jsx'
+	},
+	output: {
 		filename: '[name].[contentHash].bundle.js',
-    path: path.resolve(__dirname, '../dist'),
+		path: path.resolve(__dirname, '../dist'),
 		publicPath: 'static'
-  },
-  devtool: 'inline-source-map',
-  module: {
-    rules:
-      [
+	},
+	devtool: 'inline-source-map',
+	module: {
+		rules:
+			[
 				{
 					test: /\.pug$/,
 					use: [
@@ -40,22 +40,22 @@ module.exports = {
 						}
 					}
 				},
-        {
-          test: /\.css$/,
-          use: [
-            'style-loader',
-            'css-loader'
-          ]
-        }
-      ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
+				{
+					test: /\.css$/,
+					use: [
+						'style-loader',
+						'css-loader'
+					]
+				}
+			]
+	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
 			template: 'public/test/index.pug',
 			title: 'Retry'
-    })
-  ],
+		})
+	],
 	optimization: {
 		splitChunks: {
 			chunks: 'all'
