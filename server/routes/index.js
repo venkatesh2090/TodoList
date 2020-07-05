@@ -4,13 +4,6 @@ const router = express.Router();
 import { getTaskByGroupId, insertTask, getGroupsFromUserId, getDefaultTasks, getDefaultGroupId } from '../database/getTasks';
 import createError from 'http-errors';
 
-/**
- * Required for babel support for 
- * promses
- */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
 router.post('/', async function (req, res, next) {
 	const task = req.body.task;
 	const regEx = /^ *$/;
