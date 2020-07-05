@@ -13,17 +13,15 @@ class HelloButton extends React.Component {
 	}
 
 	render() {
-		if (this.state.pressed) {
-			return (
-				<h1>
-					Hello
-				</h1>
-			);
-		}
 		return (
-			<button className = 'btn btn-primary' onClick = {this.helloEvent}>
-				Click
-			</button>
+			<div>
+				<h1> This page was made with React </h1>
+				{
+					this.state.pressed
+					? <h1> Hello </h1>
+					: <button className = 'btn btn-primary' onClick = { this.helloEvent }> Click </button>
+				}
+			</div>
 		);
 	}
 }
