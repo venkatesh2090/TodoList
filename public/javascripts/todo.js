@@ -159,8 +159,7 @@ async function changeList(groupId) {
 	}
 };
 
-async function removeGroup(container) {
-	const groupId = container.getAttribute('gid');
+async function removeGroup(groupId) {
 	if (groupId == window.sessionStorage.getItem('groupId')) {
 		document.querySelector('#remove-target .modal-dialog .modal-content .modal-footer small').classList.remove('d-none');
 	}
@@ -176,7 +175,7 @@ async function removeGroup(container) {
 		if (!res)
 			alert("Couldn't delete group");
 		else {
-			container.remove();
+			document.querySelector(`#remove-target .modal-dialog .modal-content .modal-body div[gid="${groupId}`).remove();
 			document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
 		}
 	}
@@ -212,9 +211,8 @@ document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 });
 
 document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
-	const groupId = e.getAttribute('gid');
 	e.childNodes[1].onclick = async function() {
-		await removeGroup(e);
+		await removeGroup(e.getAttribute('gid'));
 	}
 });
 
