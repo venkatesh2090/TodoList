@@ -53,13 +53,12 @@ function addList(groupName) {
 	}).then(res => {
 		let group = document.createElement('div');
 		group.setAttribute('gid', res.groupId);
+		group.className = 'd-flex flex-row justify-content-between align-items-center w-100';
 
-		let name = document.createElement('p');
-		name.appendChild(document.createTextNode(groupName));
-
-		group.appendChild(name);
-
-		group.onclick = event => changeList(res.groupId);
+		group.innerHTML = `
+			<p class="mb-0">${groupName}</p>
+			<input type="button" class="btn btn-danger" value="R"/>
+		`;
 
 		document.getElementById('groups-container').appendChild(group);
 
@@ -136,7 +135,7 @@ async function changeList(groupId) {
 	window.sessionStorage.setItem('groupId', groupId);
 	document.querySelector('#task-form input[type="hidden"]').value = groupId;
 	if (document.querySelector('#groups-container .active') != null)
-		document.querySelector('#groups-container .active').className = '';
+		document.querySelector('#groups-container .active').classList.remove('active');
 	
 	const activeDiv = document.querySelector(`#groups-container div[gid="${groupId}"]`);
 	activeDiv.classList.add('active');
