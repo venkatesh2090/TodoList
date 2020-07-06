@@ -52,7 +52,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: 'public/test/index.pug',
+			template: 'views/ReactIndex.pug',
 			title: 'Retry'
 		})
 	],
