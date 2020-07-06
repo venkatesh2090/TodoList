@@ -177,27 +177,38 @@ async function changeList(groupId) {
 		} catch(err) {}
 		document.querySelector(`#list-container div[gid="${groupId}"`).classList.add('active');
 	}
-};
+}
+
+function removeGroupListener(groupId) {
+	return async function (event) {
+		if (groupId == window.sessionStorage.getItem('groupId')) {
+			$('#warning').modal('show');
+		}
+		else {
+			const remove = await isRemove(event).catch(er => console.error(er));
+			if (remove) {
+				removeGroup(groupId);
+			} else {
+				console.log(`Didn't remove group`);
+			}
+		}
+	}
+}
 
 async function removeGroup(groupId) {
-	if (groupId == window.sessionStorage.getItem('groupId')) {
-		document.querySelector('#remove-target .modal-dialog .modal-content .modal-footer small').classList.remove('d-none');
-	}
+	const url = `/api/delete/group/${groupId}`;
+
+	const req = new Request(url, {
+		method: 'GET'
+	});
+
+	const res = await fetch(req).then(res => res.ok);
+
+	if (!res)
+		alert("Couldn't delete group");
 	else {
-		const url = `/api/delete/group/${groupId}`;
-
-		const req = new Request(url, {
-			method: 'GET'
-		});
-
-		const res = await fetch(req).then(res => res.ok);
-
-		if (!res)
-			alert("Couldn't delete group");
-		else {
-			document.querySelector(`#remove-target .modal-dialog .modal-content .modal-body div[gid="${groupId}`).remove();
-			document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
-		}
+		document.querySelector(`#remove-target .modal-dialog .modal-content .modal-body div[gid="${groupId}`).remove();
+		document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
 	}
 }
 
