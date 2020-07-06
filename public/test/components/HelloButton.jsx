@@ -20,7 +20,7 @@ class HelloButton extends React.Component {
 	render() {
 		return (
 			<div className = 'd-flex flex-column justify-content-center align-items-center'>
-				<SideMenu open = {this.state.pressed} />
+				<SideMenu open = {this.props.open} />
 				<div>
 					<h1> This page was made with React </h1>
 					<button className = 'btn btn-primary' onClick = {this.helloEvent}> { this.state.pressed ? 'Hello' : 'Click' } </button>
