@@ -80,26 +80,7 @@ function addList(groupName) {
 		`;
 
 		document.getElementById('groups-container').appendChild(group);
-
-
 		
-		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
-		
-		let container = document.createElement('div');
-		container.className = "d-flex flex-row algin-items-center w-100 justify-content-between my-1";
-		container.setAttribute('gid', res.groupId);
-
-		container.innerHTML = `
-			<p class="my-0"> 
-				${groupName} 
-			</p>
-
-			<input type="button" class="btn btn-warning" value="Remove" />
-		`;
-		removeModal.appendChild(container);
-
-		removeModal.querySelector(`div[gid="${res.groupId}"] input[type="button"]`).onclick =  async e => await removeGroup(res.groupId);
-
 		document.querySelector('#list-form input[type="text"]').value = '';
 	}).catch(err => {
 		alert(err);
@@ -208,7 +189,6 @@ async function removeGroup(groupId) {
 	if (!res)
 		alert("Couldn't delete group");
 	else {
-		document.querySelector(`#remove-target .modal-dialog .modal-content .modal-body div[gid="${groupId}`).remove();
 		document.querySelector(`#groups-container div[gid="${groupId}"]`).remove();
 	}
 }
@@ -237,16 +217,6 @@ document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 		await changeList(e.getAttribute('gid'));
 	}
 	e.childNodes[1].onclick = removeGroupListener(e.getAttribute('gid'));
-});
-
-document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
-	e.childNodes[1].onclick = async function() {
-		await removeGroup(e.getAttribute('gid'));
-	}
-});
-
-$('#remove-target').on('hide.bs.modal', () => {
-	document.querySelector('#remove-target .modal-dialog .modal-content .modal-footer small').classList.add('d-none');
 });
 
 window.onload = function(event) {
