@@ -18,6 +18,7 @@ block content
 					div.d-flex.flex-row.justify-content-between.align-items-center.w-100(gid= group.id)
 						p.mb-0= group.group_name
 						input.btn.btn-danger(type='button' value='X')
+
 		div.container.d-flex.flex-column.align-items-center
 			div.modal.fade#confirmation(tab-index=-1 role='dialog')
 				div.modal-dialog
@@ -28,6 +29,16 @@ block content
 						div.modal-footer
 							button.btn.btn-danger(data-dismiss='modal') Yes
 							button.btn.btn-secondary(data-dismiss='modal') No
+
+			div.modal.fade#warning(tab-index=-1 role='dialog')
+				div.modal-dialog
+					div.modal-content
+						div.modal-header
+							h5.modal-title Sorry!
+						div.modal-body
+							span Could not delete this group. This group is currently active
+						div.modal-footer
+							button.btn.btn-secondary(data-dismiss='modal') OK
 
 			div.modal.fade#remove-target(tab-index=-1 role='dialog')
 				div.modal-dialog
