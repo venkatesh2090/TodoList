@@ -9,18 +9,18 @@ class HelloButton extends React.Component {
 	}
 
 	helloEvent(event) {
-		this.setState({ pressed: true });
+		if (this.state.pressed) {
+			this.setState({ pressed: false });
+		} else {
+			this.setState({ pressed: true });
+		}
 	}
 
 	render() {
 		return (
 			<div>
 				<h1> This page was made with React </h1>
-				{
-					this.state.pressed
-					? <h1> Hello </h1>
-					: <button className = 'btn btn-primary' onClick = { this.helloEvent }> Click </button>
-				}
+				<button className = 'btn btn-primary' onClick = {this.helloEvent}> { this.state.pressed ? 'Hello' : 'Click' } </button>
 			</div>
 		);
 	}
