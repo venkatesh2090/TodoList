@@ -235,6 +235,7 @@ document.getElementById('groups-container').childNodes.forEach(function (e, i) {
 	e.childNodes[0].onclick = async function (event) {
 		await changeList(e.getAttribute('gid'));
 	}
+	e.childNodes[1].onclick = removeGroupListener(e.getAttribute('gid'));
 });
 
 document.querySelector('#remove-target .modal-dialog .modal-content .modal-body').childNodes.forEach(e => {
