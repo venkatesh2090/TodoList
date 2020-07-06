@@ -13,6 +13,3 @@ The app is deployed on heroku [here](https://arctic-drake-04002.herokuapp.com/)
 ```bash
 docker-compose up
 ```
-
-## Future features
-- use webpack (currently not in use)
