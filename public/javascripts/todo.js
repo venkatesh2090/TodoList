@@ -80,6 +80,10 @@ function addList(groupName) {
 		`;
 
 		document.getElementById('groups-container').appendChild(group);
+		group.querySelector('p').onclick = async function(event) {
+			await changeList(groupId);
+		}
+		group.querySelector('input[type="button"]').onclick = removeGroupListener(res.groupId);
 		
 		document.querySelector('#list-form input[type="text"]').value = '';
 	}).catch(err => {
