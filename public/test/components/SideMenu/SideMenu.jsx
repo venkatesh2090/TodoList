@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ListForm from './ListForm.jsx';
 
 class SideMenu extends React.Component {
 	constructor(props) {
@@ -15,6 +16,7 @@ class SideMenu extends React.Component {
 				top: window.getComputedStyle(document.querySelector('.navigationBar')).height,
 				paddingTop: '.5rem'
 			}} className = {_class}>
+				<ListForm />
 				<h1> Here </h1>
 			</div>
 		);
