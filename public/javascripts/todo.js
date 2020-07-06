@@ -240,6 +240,7 @@ window.onload = function(event) {
 	}
 
 	document.querySelector('#task-form input[type="hidden"]').value = window.sessionStorage.getItem('groupId');
+	document.querySelector('#side-menu').style.top = window.getComputedStyle(document.querySelector('.navigationBar')).height;
 }
 
 document.getElementById('logout').addEventListener('click', event => {
