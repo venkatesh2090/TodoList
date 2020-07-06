@@ -1,5 +1,6 @@
 .navigationBar{
   position: sticky;
+  z-index: 1;
   overflow: hidden;
   left: 0;
   top: 0;

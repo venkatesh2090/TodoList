@@ -54,6 +54,7 @@ a {
   overflow: hidden;
   background: #e0e0d1;
   position: fixed;
+  z-index: 1;
   left: 0;
 }
 
