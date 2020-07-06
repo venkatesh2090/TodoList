@@ -17,7 +17,6 @@ class ListForm extends React.Component {
 
 	handleSubmit(event) {
 		let data = new FormData(event.target);
-		console.log(data.get('groupName'));
 		event.preventDefault();
 	}
 
