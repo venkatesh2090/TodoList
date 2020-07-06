@@ -19,7 +19,17 @@ block content
 						p.mb-0= group.group_name
 						input.btn.btn-danger(type='button' value='X')
 		div.container.d-flex.flex-column.align-items-center
-			div.modal.fade#remove-target
+			div.modal.fade#confirmation(tab-index=-1 role='dialog')
+				div.modal-dialog
+					div.modal-content
+						h5.modal-header Are you sure
+						div.modal-body
+							span This list will be deleted permanently!
+						div.modal-footer
+							button.btn.btn-danger(data-dismiss='modal') Yes
+							button.btn.btn-secondary(data-dismiss='modal') No
+
+			div.modal.fade#remove-target(tab-index=-1 role='dialog')
 				div.modal-dialog
 					div.modal-content
 						div.modal-header
