@@ -104,10 +104,6 @@ div.remove div {
   background-color: var(--red);
 }
 
-.navigationBar {
-  position: sticky;
-}
-
 #groups-container .active {
 	color: var(--blue);
 }
