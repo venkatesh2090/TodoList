@@ -1,3 +1,22 @@
+function isRemove(event) {
+	$('#confirmation').modal('show');
+	return new Promise((resolve, reject) => {
+		const thisModalFooter = document.querySelector('#confirmation .modal-dialog .modal-content .modal-footer'); 
+		try {
+			thisModalFooter.querySelector('button.btn-danger').onclick = function(event) {
+				resolve(true);
+			}
+
+			thisModalFooter.querySelector('button.btn-secondary').onclick = function(event) {
+				resolve(false);
+			}
+
+		} catch (err) {
+			reject(err);
+		}
+	});
+}
+
 async function doneElement(element) {
 	const id = element.getAttribute('id');
 	const url = `/api/done/${id}`;
