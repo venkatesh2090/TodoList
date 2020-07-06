@@ -76,12 +76,13 @@ function addList(groupName) {
 
 		group.innerHTML = `
 			<p class="mb-0">${groupName}</p>
-			<input type="button" class="btn btn-danger" value="R"/>
+			<input type="button" class="btn btn-danger" value="X"/>
 		`;
 
 		document.getElementById('groups-container').appendChild(group);
 
 
+		
 		removeModal = document.querySelector('#remove-target .modal-dialog .modal-content .modal-body');
 		
 		let container = document.createElement('div');
