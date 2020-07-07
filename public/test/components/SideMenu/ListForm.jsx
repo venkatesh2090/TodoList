@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import GroupList from './GroupList.jsx';
 
 class ListForm extends React.Component {
 	constructor(props) {
@@ -22,14 +23,17 @@ class ListForm extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit = {this.handleSubmit} className = 'container d-flex flex-column' method = ''>
-				<div className = 'form-group'>
-					<input name = 'groupName' className = 'form-control' onChange={this.handleChange} required placeholder = 'Name'/>
-				</div>
-				<div className = 'form-group'>
-					<input className = 'form-control btn btn-primary' value = 'New List' type = 'submit'/>
-				</div>
-			</form>
+			<div>
+				<form onSubmit = {this.handleSubmit} className = 'container d-flex flex-column' method = ''>
+					<div className = 'form-group'>
+						<input name = 'groupName' className = 'form-control' onChange={this.handleChange} required placeholder = 'Name'/>
+					</div>
+					<div className = 'form-group'>
+						<input className = 'form-control btn btn-primary' value = 'New List' type = 'submit'/>
+					</div>
+				</form>
+				<GroupList />
+			</div>
 		);
 	}
 }
