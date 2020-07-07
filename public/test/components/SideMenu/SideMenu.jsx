@@ -17,7 +17,6 @@ class SideMenu extends React.Component {
 				paddingTop: '.5rem'
 			}} className = {_class}>
 				<ListForm />
-				<h1> Here </h1>
 			</div>
 		);
 	}
