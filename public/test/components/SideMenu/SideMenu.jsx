@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ListForm from './ListForm.jsx';
+import GroupList from './GroupList.jsx';
 
 class SideMenu extends React.Component {
 	constructor(props) {
@@ -17,6 +18,7 @@ class SideMenu extends React.Component {
 				paddingTop: '.5rem'
 			}} className = {_class}>
 				<ListForm />
+				<GroupList />
 			</div>
 		);
 	}

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GroupList from './GroupList.jsx';
 
 class ListForm extends React.Component {
 	constructor(props) {
@@ -32,7 +31,6 @@ class ListForm extends React.Component {
 						<input className = 'form-control btn btn-primary' value = 'New List' type = 'submit'/>
 					</div>
 				</form>
-				<GroupList />
 			</div>
 		);
 	}
