@@ -230,8 +230,13 @@ window.onload = function(event) {
 		window.sessionStorage.setItem('groupId', groupContainer.getAttribute('gid'))
 		changeList(groupContainer.getAttribute('gid'));
 	} else {
-		const groupId = window.sessionStorage.getItem('groupId');
-		document.querySelector(`#groups-container div[gid="${groupId}"]`).classList.add('active');
+		let groupId = window.sessionStorage.getItem('groupId');
+		if (document.querySelector(`#groups-container div[gid="${groupId}"]`) != null)
+			document.querySelector(`#groups-container div[gid="${groupId}"]`).classList.add('active');
+		else {
+			window.sessionStorage.setItem('groupId', document.querySelector('#groups-container div').getAttribute('gid'));
+			groupId = window.sessionStorage.getItem('groupId');
+		}
 		changeList(groupId);
 	}
 
