@@ -4,7 +4,6 @@ import { getGroupsList } from '../../fetch/groups';
 class GroupList extends React.Component {
 	constructor(props) {
 		super(props);
-		// TODO: implement get default group
 		this.state = {
 			active: window.sessionStorage.getItem('groupId'),
 			groups: []
@@ -13,7 +12,15 @@ class GroupList extends React.Component {
 
 	async componentDidMount() {
 		const groups = await getGroupsList();
-		this.setState({ groups: groups != false ? groups : {}});
+		let groupId = window.sessionStorage.getItem('groupId');
+		this.setState({ 
+			groups: groups != false ? groups : {},
+			active: groupId || groups[0].id
+		});
+
+		if (groupId == null || groupId == undefined) {
+			window.sessionStorage.setItem('groupId', groups[0].id);
+		}
 	}
 
 	render() {
