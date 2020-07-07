@@ -22,7 +22,8 @@ module.exports = {
 							loader: 'apply-loader',
 							options: {
 								obj: {
-									title: 'React'
+									title: 'React',
+									logout: true
 								}
 							}
 						},
