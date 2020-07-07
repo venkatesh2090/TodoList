@@ -7,9 +7,12 @@ router.get('/tasks/:gid', async function(req, res, next) {
 	const groupId = req.params.gid;
 	const userId = req.session.user;
 
-	const tasks = await getTaskByGroupId(userId, groupId);
-
-	res.json(tasks);
+	try {
+		const tasks = await getTaskByGroupId(userId, groupId);
+		res.json(tasks);
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(511);
 });
 
 router.get('/taskall', function(req, res, next) {
