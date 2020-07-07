@@ -10,6 +10,7 @@ import compression from 'compression';
 
 import logger from 'morgan';
 
+import { userIdExists } from './database/getTasks';
 import indexRouter from './routes/index';
 import apiRouter from './routes/todo-api';
 import loginRouter from './routes/login';
@@ -17,6 +18,10 @@ import logoutRouter from './routes/logout';
 import signupRouter from './routes/signup';
 
 var app = express();
+
+export async function validateRequest(userId) {
+	return await userIdExists(userId);
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -37,13 +42,16 @@ app.use(cookieSession({
 app.use('/static', express.static(path.join(__dirname, '../public')));
 app.use('/static', express.static(path.join(__dirname, '../dist')));
 
-app.use(function (req, res, next) {
-	const regEx = /^(\/(login|static|signup))/
+app.use(async function (req, res, next) {
+	const regEx = /^(\/(login|logout|static|signup))/
 
-	if (req.session.isNew && !regEx.test(req.path)) {
+	if (!regEx.test(req.path) && !req.session.user) {
 		res.redirect('/login');
 	} else {
-		next();
+		if (regEx.test(req.path) || await validateRequest(req.session.user))
+			next();
+		else
+			res.redirect('/logout');
 	}
 });
 app.use(compression());
