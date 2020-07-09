@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import React, { useState } from 'react';
 import HelloButton from './components/HelloButton.jsx';
+import SideMenu from './components/SideMenu/SideMenu.jsx';
 
 function App(props) {
 	let [isOpen, setOpen] = useState(false);
@@ -11,7 +12,12 @@ function App(props) {
 			setOpen(true);
 		}
 	}
-	return (<HelloButton open = {isOpen} />);
+	return (
+		<div className = 'd-flex flex-column justify-content-center align-items-center'>
+			<SideMenu open = {isOpen} />
+			<HelloButton />
+		</div>
+	);
 }
 
 document.querySelector('#logout').onclick = function(event) {
