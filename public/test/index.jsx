@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React, { useState } from 'react';
-import HelloButton from './components/HelloButton.jsx';
+import TODOList from './components/TODOList.jsx';
 import SideMenu from './components/SideMenu.jsx';
 
 function App(props) {
@@ -15,7 +15,7 @@ function App(props) {
 	return (
 		<div className = 'd-flex flex-column justify-content-center align-items-center'>
 			<SideMenu open = {isOpen} />
-			<HelloButton />
+			<TODOList />
 		</div>
 	);
 }
