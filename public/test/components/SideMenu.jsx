@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ListForm from './ListForm.jsx';
-import GroupList from './GroupList.jsx';
-import { getGroupsList } from '../../fetch/groups.js';
+import ListForm from './SideMenu/ListForm.jsx';
+import GroupList from './SideMenu/GroupList.jsx';
+import { getGroupsList } from '../fetch/groups.js';
 
 class SideMenu extends React.Component {
 	constructor(props) {

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React, { useState } from 'react';
 import HelloButton from './components/HelloButton.jsx';
-import SideMenu from './components/SideMenu/SideMenu.jsx';
+import SideMenu from './components/SideMenu.jsx';
 
 function App(props) {
 	let [isOpen, setOpen] = useState(false);
