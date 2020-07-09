@@ -36,7 +36,7 @@ class SideMenu extends React.Component {
 				paddingTop: '.5rem'
 			}} className = {_class}>
 				<ListForm />
-				<GroupList groups = {this.state.groups}/>
+				<GroupList groups = {this.state.groups} active = {this.state.active}/>
 			</div>
 		);
 	}
