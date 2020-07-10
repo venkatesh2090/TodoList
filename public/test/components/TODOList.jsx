@@ -17,8 +17,13 @@ class TODOList extends React.Component {
 
 	componentDidMount() {
 		window.addEventListener('load', async function (event) {
-			let tasks = await getAllTasks();
-			this.setState({ tasks: tasks });
+			try {
+				let tasks = await getAllTasks();
+				this.setState({ tasks: tasks });
+			} catch (err) {
+				console.log(err);
+				console.log(err.code);
+			}
 		}.bind(this), true);
 	}
 
