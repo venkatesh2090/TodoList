@@ -3,8 +3,6 @@ var db;
 let dbOpenRequest = window.indexedDB.open('todo_list', 3);
 dbOpenRequest.onsuccess = function(event) {
 	db = event.target.result;
-
-	console.log('db opened');
 }
 
 dbOpenRequest.onupgradeneeded = function (event) {
@@ -16,8 +14,6 @@ dbOpenRequest.onupgradeneeded = function (event) {
 		db.deleteObjectStore('todos');
 		let todos = db.createObjectStore('todos', { keyPath: 'id', autoIncrement: true });
 	}
-
-	console.log('created object store');
 }
 
 export function insertTask(task, expiry) {
