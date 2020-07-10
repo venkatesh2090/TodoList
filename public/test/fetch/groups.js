@@ -12,3 +12,5 @@ export async function getGroupsList() {
 		return false;
 	}
 }
+
+// TODO: impl indexedDB
