@@ -4,20 +4,15 @@ import './LoginMenu.css';
 class LoginMenu extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleForm = this.handleForm.bind(this);
-	}
-
-	handleForm(event) {
-		event.preventDefault();
 	}
 
 	render() {
 		return (
 			<div className = 'login-container'>
-				<form onSubmit = {this.handleForm} className = 'needs-validation'>
-					<label htmlFor = 'username'>Username</label>
+				<form action = '/login' method = 'POST' className = 'needs-validation'>
+					<label htmlFor = 'user'>Username</label>
 					<div className = 'form-group'>
-						<input className = 'form-control' name = 'username' placeholder = 'Username' required/>
+						<input className = 'form-control' name = 'user' placeholder = 'Username' required/>
 					</div>
 
 					<label htmlFor = 'password'>Password</label>
