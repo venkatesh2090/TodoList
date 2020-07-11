@@ -8,8 +8,7 @@ class TaskList extends React.Component {
 
 	render() {
 		return (
-			<div className = 'd-flex flex-column w-75 align-items-start'>
-				<h1 className = 'align-self-end'> Remove impl </h1>
+			<div className = 'd-flex flex-column w-100'>
 				{
 					this.props.tasks.map(function(ele) {
 						return (
