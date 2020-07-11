@@ -17,6 +17,7 @@ import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
 import signupRouter from './routes/signup';
 
+import { serveHTML } from './utils/serve';
 var app = express();
 
 export async function validateRequest(userId) {
@@ -62,18 +63,7 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
 app.use('/webpack', async function(req, res, next) {
-	let fh;
-	let html;
-	try {
-		fh = await fsPromises.open(path.join(__dirname, 'index.html'), 'r');
-	} catch(err) {
-		console.log(err);
-	} finally {
-		html = await fh.readFile({ encoding: 'utf8' });
-
-		await fh.close();
-	}
-	res.send(html);
+	res.send(await serveHTML('index'));
 });
 
 // catch 404 and forward to error handler
