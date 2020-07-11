@@ -1,4 +1,5 @@
 import React from 'react';
+import { taskDone } from '../../fetch/db';
 
 class TaskElement extends React.Component {
 	constructor(props) {
@@ -9,8 +10,10 @@ class TaskElement extends React.Component {
 		this.doneTask = this.doneTask.bind(this);
 	}
 
-	doneTask(event) {
+
+	async doneTask(event) {
 		// TODO: remove element from objectStore
+		await taskDone(this.props.todo.id);
 		this.setState({ done: true });
 	}
 
