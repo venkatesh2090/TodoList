@@ -13,4 +13,6 @@
   background-color: white;
 }
 
-
+.navigationBar h3:hover {
+	cursor: pointer;
+}
