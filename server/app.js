@@ -44,12 +44,15 @@ app.use('/static', express.static(path.join(__dirname, '../public')));
 app.use('/static', express.static(path.join(__dirname, '../dist')));
 
 app.use(async function (req, res, next) {
-	const regEx = /^(\/(login|logout|static|signup))/
+	const regEx = /^(\/(login|welcome|logout|static|signup))/
 
 	if (!regEx.test(req.path) && !req.session.user) {
-		res.redirect('/login');
+		res.redirect('/welcome');
 	} else {
-		if (regEx.test(req.path) || await validateRequest(req.session.user))
+		const welcomRegEx = /^\/(welcome)/;
+		if (welcomRegEx.test(req.path) && req.session.user)
+			res.redirect('/');
+		else if (regEx.test(req.path) || await validateRequest(req.session.user))
 			next();
 		else
 			res.redirect('/logout');
