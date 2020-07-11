@@ -1,6 +1,7 @@
 import React from 'react';
 import TODOForm from './TODOList/TODOForm.jsx';
 import TaskList from './TODOList/TaskList.jsx';
+import RemoveButton from './TODOList/RemoveButton.jsx';
 
 import { insertTask, getAllTasks } from '../fetch/db';
 
@@ -48,7 +49,10 @@ class TODOList extends React.Component {
 			<div className = 'container d-flex flex-column align-items-center'>
 				<hr />
 				<TODOForm onChange = {this.handleChange} value = {this.state.currentTodo} handleSubmit = {this.handleForm}/>
-				<TaskList tasks = {this.state.tasks} />
+				<div className = 'd-flex flex-column w-75 align-items-start'>
+					<RemoveButton />
+					<TaskList tasks = {this.state.tasks} />
+				</div>
 			</div>
 		);
 	}
