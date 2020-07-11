@@ -1,4 +1,5 @@
 import React from 'react';
+import TaskElement from './TaskElement.jsx';
 
 class TaskList extends React.Component {
 	constructor(props) {
@@ -12,15 +13,9 @@ class TaskList extends React.Component {
 				{
 					this.props.tasks.map(function(ele) {
 						return (
-							<div key = {ele.id} className = 'w-100 d-flex flex-row align-items-center justify-content-between ongoing'>
-								<h4>{ele.task}</h4>
-								<img src = '/static/images/tick.svg' width = '30' height = '30' onClick = {function(event) {
-									// TODO: remove task 
-									console.log(`impl remove ${ele.id}`);
-								}}/>
-							</div>
+							<TaskElement key = {ele.id} task = {ele.task}/>
 						);
-					})
+					}.bind(this))
 				}
 			</div>
 		);
