@@ -54,3 +54,27 @@ export function getAllTasks() {
 		}
 	});
 }
+
+export function taskDone(id) {
+	return new Promise(function(resolve, reject) {
+		let todos = db.transaction([ 'todos' ], 'readwrite').objectStore('todos');
+		const getRequest = todos.get(id);
+
+		getRequest.onerror = function(event) {
+			reject(event.target.result);
+		}
+
+		getRequest.onsuccess = function(event) {
+			const data = event.target.result;
+			data.isDone = true;
+
+			const putRequest = todos.put(data);
+			putRequest.onerror = function(event) {
+				reject(event.target.result);
+			}
+			putRequest.onsuccess = function(event) {
+				resolve();
+			}
+		}
+	});
+}
