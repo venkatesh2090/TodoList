@@ -1,5 +1,6 @@
 import React from 'react';
 import { taskDone } from '../../fetch/db';
+import './TaskElement.css';
 
 class TaskElement extends React.Component {
 	constructor(props) {
