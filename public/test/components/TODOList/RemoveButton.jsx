@@ -7,7 +7,7 @@ class RemoveButton extends React.Component {
 
 	render() {
 		return (
-			<input type = 'button' value = 'Remove' className = 'btn btn-danger align-self-end'/>
+			<input onClick = {this.props.removeDone} type = 'button' value = 'Remove' className = 'btn btn-danger align-self-end'/>
 		);
 	}
 }

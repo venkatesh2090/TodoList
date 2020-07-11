@@ -3,7 +3,7 @@ import TODOForm from './TODOList/TODOForm.jsx';
 import TaskList from './TODOList/TaskList.jsx';
 import RemoveButton from './TODOList/RemoveButton.jsx';
 
-import { insertTask, getAllTasks } from '../fetch/db';
+import { insertTask, getAllTasks, removeDone } from '../fetch/db';
 
 class TODOList extends React.Component {
 	constructor(props) {
@@ -14,6 +14,7 @@ class TODOList extends React.Component {
 		}
 		this.handleForm = this.handleForm.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleRemove = this.handleRemove.bind(this);
 	}
 
 	componentDidMount() {
@@ -44,13 +45,21 @@ class TODOList extends React.Component {
 		this.setState({ currentTodo: event.target.value });
 	}
 
+	async handleRemove(event) {
+		await removeDone();
+		const taskList = await getAllTasks();
+		this.setState({
+			tasks: taskList
+		});
+	}
+
 	render() {
 		return (
 			<div className = 'container d-flex flex-column align-items-center'>
 				<hr />
 				<TODOForm onChange = {this.handleChange} value = {this.state.currentTodo} handleSubmit = {this.handleForm}/>
 				<div className = 'd-flex flex-column w-75 align-items-start'>
-					<RemoveButton />
+					<RemoveButton removeDone = {this.handleRemove}/>
 					<TaskList tasks = {this.state.tasks} />
 				</div>
 			</div>
