@@ -78,3 +78,33 @@ export function taskDone(id) {
 		}
 	});
 }
+
+export function removeDone() {
+	return new Promise(function(resolve, reject) {
+		let todos = db.transaction([ 'todos' ], 'readwrite').objectStore('todos');
+
+		const cursorRequest = todos.openCursor();
+		cursorRequest.onerror = function(event) {
+			reject(event.target.result);
+		}
+		cursorRequest.onsuccess = function(event) {
+			let cursor = event.target.result;
+
+			if (cursor) {
+				const id = cursor.value.id;
+				const isDone = cursor.value.isDone;
+
+				if (isDone) {
+					let deleteRequest = todos.delete(id);
+
+					deleteRequest.onerror = function(event) {
+						reject(event.target.result);
+					}
+				}
+				cursor.continue();
+			} else {
+				resolve();
+			}
+		}
+	});
+}
