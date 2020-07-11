@@ -10,6 +10,9 @@ class TaskElement extends React.Component {
 		this.doneTask = this.doneTask.bind(this);
 	}
 
+	componentDidMount() {
+		this.setState({ done: this.props.todo.isDone });
+	}
 
 	async doneTask(event) {
 		// TODO: remove element from objectStore
