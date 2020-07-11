@@ -62,7 +62,7 @@ app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
-app.use('/webpack', async function(req, res, next) {
+app.use('/welcome', async function(req, res, next) {
 	res.send(await serveHTML('index'));
 });
 
