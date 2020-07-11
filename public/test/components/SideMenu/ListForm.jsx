@@ -16,7 +16,6 @@ class ListForm extends React.Component {
 	}
 
 	handleSubmit(event) {
-		let data = new FormData(event.target);
 		event.preventDefault();
 	}
 
@@ -25,7 +24,7 @@ class ListForm extends React.Component {
 			<div>
 				<form onSubmit = {this.handleSubmit} className = 'container d-flex flex-column' method = ''>
 					<div className = 'form-group'>
-						<input name = 'groupName' className = 'form-control' onChange={this.handleChange} required placeholder = 'Name'/>
+						<input name = 'groupName' className = 'form-control' onChange={this.handleChange} required placeholder = 'Login to access Groups' disabled/>
 					</div>
 					<div className = 'form-group'>
 						<input className = 'form-control btn btn-primary' value = 'New List' type = 'submit'/>

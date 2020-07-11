@@ -7,23 +7,6 @@ import { getGroupsList } from '../fetch/groups.js';
 class SideMenu extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			active: window.sessionStorage.getItem('groupId'),
-			groups: []
-		}
-	}
-
-	async componentDidMount() {
-		const groups = await getGroupsList();
-		let groupId = window.sessionStorage.getItem('groupId');
-		this.setState({ 
-			groups: groups != false ? groups : {},
-			active: groupId || groups[0].id
-		});
-
-		if (groupId == null || groupId == undefined) {
-			window.sessionStorage.setItem('groupId', groups[0].id);
-		}
 	}
 
 	render() {
@@ -36,7 +19,6 @@ class SideMenu extends React.Component {
 				paddingTop: '.5rem'
 			}} className = {_class}>
 				<ListForm />
-				<GroupList groups = {this.state.groups} active = {this.state.active}/>
 			</div>
 		);
 	}
