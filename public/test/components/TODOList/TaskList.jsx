@@ -13,7 +13,7 @@ class TaskList extends React.Component {
 				{
 					this.props.tasks.map(function(ele) {
 						return (
-							<TaskElement key = {ele.id} task = {ele.task}/>
+							<TaskElement key = {ele.id} todo = {ele}/>
 						);
 					}.bind(this))
 				}

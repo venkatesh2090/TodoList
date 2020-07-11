@@ -21,7 +21,7 @@ class TaskElement extends React.Component {
 					this.state.done
 					? { textDecoration: 'line-through' }
 					: null
-				}>{this.props.task}</h4>
+				}>{this.props.todo.task}</h4>
 				{
 					this.state.done
 					? null
