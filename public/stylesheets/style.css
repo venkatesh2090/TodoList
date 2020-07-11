@@ -120,3 +120,8 @@ div.remove div {
 #list-container .active {
 	display: block !important;
 }
+
+#list-container>div>div>h4 {
+	overflow: hidden;
+	overflow-wrap: break-word;
+}
