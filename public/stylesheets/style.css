@@ -10,21 +10,28 @@
 		margin-bottom: 0.5em;
 	}
 }
-@media (min-width: 420px) and (max-width: 800px) {
-	:root {
-	--side-menu-width: 50%;
-	}
+
+@media (min-width: 420px) {
 	#task {
 		margin-right: 0.5em;
 	}
 }
 
-@media (min-width: 800px) {
+@media (min-width: 420px) and (max-width: 800px) {
 	:root {
-	--side-menu-width: 15%;
+	--side-menu-width: 50%;
 	}
-	#task {
-		margin-right: 0.5em;
+}
+
+@media (min-width: 800px) and (max-width: 1400px) {
+	:root {
+	--side-menu-width: 35%;
+	}
+}
+
+@media (min-width: 1400px) {
+	:root {
+		--side-menu-width: 15%;
 	}
 }
 
