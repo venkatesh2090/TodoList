@@ -6,6 +6,10 @@ class LoginMenu extends React.Component {
 		super(props);
 	}
 
+	singupListener(event) {
+		window.location = '/signup';
+	}
+
 	render() {
 		return (
 			<div className = 'login-container'>
@@ -21,7 +25,11 @@ class LoginMenu extends React.Component {
 					</div>
 
 					<div className = 'form-group'>
-						<input type = 'submit' value = 'Submit' className = 'w-100 btn btn-primary'/>
+						<input type = 'submit' value = 'Login' className = 'w-100 btn btn-primary'/>
+					</div>
+
+					<div className = 'form-group'>
+						<input type = 'button' value = 'Signup' className = 'w-100 btn btn-secondary' onClick = {this.singupListener}/>
 					</div>
 				</form>
 			</div>
