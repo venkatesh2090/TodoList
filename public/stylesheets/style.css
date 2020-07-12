@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 420px) {
   :root {
 	--side-menu-width: 100%;
   }
@@ -54,6 +54,7 @@ a {
   overflow: hidden;
   background: #e0e0d1;
   position: fixed;
+  z-index: 1;
   left: 0;
 }
 
@@ -104,10 +105,6 @@ div.remove div {
   background-color: var(--red);
 }
 
-.navigationBar {
-  position: sticky;
-}
-
 #groups-container .active {
 	color: var(--blue);
 }
@@ -122,4 +119,9 @@ div.remove div {
 
 #list-container .active {
 	display: block !important;
+}
+
+#list-container>div>div>h4 {
+	overflow: hidden;
+	overflow-wrap: break-word;
 }

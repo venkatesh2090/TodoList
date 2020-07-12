@@ -10,13 +10,19 @@ import compression from 'compression';
 
 import logger from 'morgan';
 
+import { userIdExists } from './database/getTasks';
 import indexRouter from './routes/index';
 import apiRouter from './routes/todo-api';
 import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
 import signupRouter from './routes/signup';
 
+import { serveHTML } from './utils/serve';
 var app = express();
+
+export async function validateRequest(userId) {
+	return await userIdExists(userId);
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -37,13 +43,19 @@ app.use(cookieSession({
 app.use('/static', express.static(path.join(__dirname, '../public')));
 app.use('/static', express.static(path.join(__dirname, '../dist')));
 
-app.use(function (req, res, next) {
-	const regEx = /^(\/(login|static|signup))/
+app.use(async function (req, res, next) {
+	const regEx = /^(\/(login|welcome|logout|static|signup))/
 
-	if (req.session.isNew && !regEx.test(req.path)) {
-		res.redirect('/login');
+	if (!regEx.test(req.path) && !req.session.user) {
+		res.redirect('/welcome');
 	} else {
-		next();
+		const welcomRegEx = /^\/(welcome)/;
+		if (welcomRegEx.test(req.path) && req.session.user)
+			res.redirect('/');
+		else if (regEx.test(req.path) || await validateRequest(req.session.user))
+			next();
+		else
+			res.redirect('/logout');
 	}
 });
 app.use(compression());
@@ -53,19 +65,8 @@ app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
-app.use('/webpack', async function(req, res, next) {
-	let fh;
-	let html;
-	try {
-		fh = await fsPromises.open(path.join(__dirname, 'index.html'), 'r');
-	} catch(err) {
-		console.log(err);
-	} finally {
-		html = await fh.readFile({ encoding: 'utf8' });
-
-		await fh.close();
-	}
-	res.send(html);
+app.use('/welcome', async function(req, res, next) {
+	res.send(await serveHTML('index'));
 });
 
 // catch 404 and forward to error handler

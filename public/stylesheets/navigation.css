@@ -1,4 +1,6 @@
 .navigationBar{
+  position: sticky;
+  z-index: 1;
   overflow: hidden;
   left: 0;
   top: 0;
@@ -11,4 +13,6 @@
   background-color: white;
 }
 
-
+.navigationBar h3:hover {
+	cursor: pointer;
+}

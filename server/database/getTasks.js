@@ -69,6 +69,13 @@ export async function deleteDone(userId) {
 	await db.none(`DELETE FROM ${todoTable} WHERE is_done AND user_id = $1`, [userId]);
 }
 
+export async function userIdExists(userId) {
+	return await db.one(`SELECT CASE WHEN COUNT(*) = 1 THEN TRUE ELSE FALSE END FROM todo_users WHERE id = $1`, [userId])
+		.then(res => {
+			return res.case;
+		});
+}
+
 export async function userExists(username) {
 	return await db.one(`SELECT COUNT(*) = 1 AS exists FROM ${todoUsers} WHERE username = $1`, [username]);
 }

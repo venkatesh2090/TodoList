@@ -53,6 +53,6 @@
       "views/*",
       "configs/*"
     ],
-    "ext": "js,json,css,html,pug"
+    "ext": "jsx,js,json,css,html,pug,svg"
   }
 }
