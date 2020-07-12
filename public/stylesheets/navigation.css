@@ -11,6 +11,7 @@
   border-bottom-color: #e0e0d1;
   border-bottom-width: 1px; 
   background-color: white;
+	box-shadow: 1px 1px 10px -6px black;
 }
 
 .navigationBar h3:hover {
