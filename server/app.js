@@ -43,6 +43,16 @@ app.use(cookieSession({
 app.use('/static', express.static(path.join(__dirname, '../public')));
 app.use('/static', express.static(path.join(__dirname, '../dist')));
 
+app.use(function(req, res, next) {
+	const mobile = /(Mobile)/;
+	if (mobile.test(req.get('user-agent'))){
+		req.mobile = true;
+	} else {
+		req.mobile = false;
+	}
+	next();
+});
+
 app.use(async function (req, res, next) {
 	const regEx = /^(\/(login|welcome|logout|static|signup))/
 
