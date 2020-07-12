@@ -9,10 +9,19 @@
 	position: fixed;
 	z-index: 1;
 	right: 0;
+	width: 0;
+	display: none;
 }
 
 @media (max-width: 480px) {
 	.login-container {
 		display: none;
 	}
+}
+
+.login-container.open {
+	width: var(--side-menu-width);
+	display: flex;
+	animation-name: slide-open;
+	animation-duration: 0.5s;
 }
