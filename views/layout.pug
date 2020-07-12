@@ -16,6 +16,8 @@ html
 				h3.mb-0.ml-1.ml-md-2 TODO List
 			if logout
 				input#logout.btn.btn-danger.align-self-end.mx-2(type='button' value='Logout')
+			if login
+				input#login.btn.btn-primary.align-self-end.mx-2(type='button' value='Login')
 		block content
 		script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous')
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' crossorigin='anonymous' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q')
