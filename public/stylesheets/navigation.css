@@ -1,16 +1,16 @@
 .navigationBar{
-  position: sticky;
-  z-index: 1;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
-  width: 100%;
-  border-bottom-style: solid;
-  border-bottom-color: #e0e0d1;
-  border-bottom-width: 1px; 
-  background-color: white;
+	position: sticky;
+	z-index: 1;
+	overflow: hidden;
+	left: 0;
+	top: 0;
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	width: 100%;
+	border-bottom-style: solid;
+	border-bottom-color: #e0e0d1;
+	border-bottom-width: 1px; 
+	background-color: white;
 	box-shadow: 1px 1px 10px -6px black;
 }
 
