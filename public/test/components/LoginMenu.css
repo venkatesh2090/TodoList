@@ -6,4 +6,7 @@
 	justify-content: flex-start;
 	padding: .75em;
 	padding-bottom: 0;
+	position: fixed;
+	z-index: 1;
+	right: 0;
 }
