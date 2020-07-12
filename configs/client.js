@@ -23,7 +23,7 @@ module.exports = {
 							options: {
 								obj: {
 									title: 'React',
-									logout: true
+									logout: false
 								}
 							}
 						},

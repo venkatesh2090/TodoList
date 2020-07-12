@@ -21,9 +21,4 @@ function App(props) {
 	);
 }
 
-document.querySelector('#logout').onclick = function(event) {
-	window.sessionStorage.removeItem('groupId');
-	window.location = '/logout';
-}
-
 ReactDOM.render(<App />, document.getElementById('render-div'));
