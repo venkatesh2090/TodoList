@@ -22,7 +22,7 @@ module.exports = {
 							loader: 'apply-loader',
 							options: {
 								obj: {
-									title: 'React',
+									title: 'Welcome',
 									logout: false,
 									login: true
 								}
@@ -54,8 +54,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: 'views/ReactIndex.pug',
-			title: 'Retry'
+			template: 'views/ReactIndex.pug'
 		})
 	],
 	optimization: {
