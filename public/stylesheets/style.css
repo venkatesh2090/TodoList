@@ -132,3 +132,7 @@ div.remove div {
 	overflow: hidden;
 	overflow-wrap: break-word;
 }
+
+#list-container>div>div>h4:hover {
+	cursor: pointer;
+}
