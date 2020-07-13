@@ -3,17 +3,18 @@ document.querySelector('.navigationBar h3').onclick = function(event) {
 }
 
 if (window.innerWidth <= 420) {
-  document.querySelector('#login').onclick = function(event) {
-    window.location = '/login';
-  }
+	document.querySelector('#login').onclick = function(event) {
+		window.location = '/login';
+	}
 } else {
-  document.querySelector('.toggle-login').onclick = function(event) {
-    const loginContainer = document.querySelector('.login-container');
-    if (loginContainer.classList.contains('open')) {
-      loginContainer.classList.remove('open');
-    }
-    else {
-      loginContainer.classList.add('open');
-    }
-  }
+	if ($('#logout').length == 0) {
+		$('.toggle-login').click(function(event) {
+			if ($('.login-container').hasClass('open')) {
+				$('.login-container').removeClass('open');
+			}
+			else {
+				$('.login-container').addClass('open');
+			}
+		});
+	}
 }
