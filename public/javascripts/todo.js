@@ -113,6 +113,83 @@ function renderTodos(data, groupId) {
 			const task = document.createElement('h4');
 			task.className = 'mb-0 my-2';
 			task.appendChild(document.createTextNode(row.todo));
+			task.onclick = function(event) {
+				const modal = document.createElement('div');
+				modal.className = 'modal fade';
+				modal.setAttribute('tab-index', -1);
+				modal.setAttribute('id', 'task-modal');
+
+				const date = new Date();
+				modal.innerHTML = `
+					<style>
+						.modal-body {
+							display: flex;
+							flex-flow: column;
+							justify-content: center;
+							align-items: center;
+						}
+						.modal-body form {
+							display: flex;
+							flex-flow: column;
+							justify-content: center;
+							align-items: flex-start;
+						}
+					</style>
+					<script>
+						$('.modal-footer .close-modal').on('click', function(event) {
+							console.log(${row.id});
+							event.preventDefault();
+							if (new Date($('.modal-body form input[type=date]').val()) > new Date("${date}")) {\n
+								$('#task-modal').modal('hide');\n
+							} else {\n
+								console.error('not possible');
+							}
+						});\n
+					</script>
+					<div class = "modal-dialog">
+						<div class = "modal-content">
+							<div class = "modal-header">
+								<h5 class = "modal-title"> Click ${row.id} </h5>
+							</div>
+							<div class = "modal-body">
+								<form>
+									<label for = "time">Time</label>
+									<div class = "form-group">
+										<div class = "form-row">
+											<div class = "col">
+												<input type = "number" placeholder = "Hours" name = "hours" min = "0" max = "23" class = "form-control" />
+											</div>
+											<div class = "col">
+												<input type = "number" placeholder = "Min" class = "form-control" name = "minutes" min = "0" max = "59" />
+											</div>
+										</div>
+									</div>
+									<div class = "form-group justify-content-between w-100">
+										<div class = "form-row w-100">
+											<div class = "col">
+												<input type = "text" placeholder = "Seconds" class = "form-control" name = "seconds" min = "0" max = "59" />
+											</div>
+											<div class = "col">
+												<input type = "date" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + (((date.getUTCDate() + 1) / 10 < 1 ? '0' : '') + (date.getUTCDate() + 1).toString())}" class = "form-control" />
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class = "modal-footer">
+								<button class = "btn close-modal btn-secondary"> Save </button>
+								<button class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+							</div>
+						</div>
+					</div>
+				`;
+
+				$('modals').append(modal);
+				$(modal).modal('show');
+				$(modal).on('hidden.bs.modal', function(event) {
+					event.target.remove();
+				});
+			}
 
 			element.appendChild(task);
 
