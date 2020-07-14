@@ -118,7 +118,7 @@ function showTaskModal(row) {
 			}
 		</style>
 		<script>
-			$('.modal-footer .close-modal').on('click', async function(event) {
+			$('#modal-form').on('submit', async function(event) {
 				event.preventDefault();
 				let formData = new FormData(document.querySelector('.modal-body form'));
 
@@ -127,6 +127,8 @@ function showTaskModal(row) {
 				expiryDate.setHours(formData.get('hours'));
 				expiryDate.setMinutes(formData.get('minutes'));
 
+				console.log(expiryDate);
+				console.log(new Date("${date}"));
 				if (expiryDate > new Date("${date}")) {\n
 					const body = JSON.stringify({
 							id: ${row.id},
@@ -142,7 +144,6 @@ function showTaskModal(row) {
 					const res = await fetch(req);
 					if (res.ok) {
 						console.log('done');
-						$('#task-modal').modal('hide');\n
 					} else {
 						alert('There was a problem');
 					}
@@ -157,7 +158,7 @@ function showTaskModal(row) {
 					<h5 class = "modal-title"> Click ${row.id} </h5>
 				</div>
 				<div class = "modal-body">
-					<form>
+					<form id = "modal-form">
 						<label for = "time">Expiry</label>
 						<div class = "form-group">
 							<div class = "form-row">
@@ -182,7 +183,7 @@ function showTaskModal(row) {
 					</form>
 				</div>
 				<div class = "modal-footer">
-					<button class = "btn close-modal btn-secondary"> Save </button>
+					<button class = "btn close-modal btn-secondary" type = "submit" form = "modal-form"> Save </button>
 					<button class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
 				</div>
 			</div>
