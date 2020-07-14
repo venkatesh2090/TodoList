@@ -91,7 +91,7 @@ function addList(groupName) {
 	});
 }
 
-function prepareTaskModal(row) {
+function showTaskModal(row) {
 	const modal = document.createElement('div');
 	modal.className = 'modal fade';
 	modal.setAttribute('tab-index', -1);
@@ -204,7 +204,7 @@ function renderTodos(data, groupId) {
 			task.className = 'mb-0 my-2';
 			task.appendChild(document.createTextNode(row.todo));
 			task.onclick = function(event) {
-				prepareTaskModal(row);
+				showTaskModal(row);
 			}
 
 			element.appendChild(task);
