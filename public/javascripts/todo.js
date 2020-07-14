@@ -118,7 +118,7 @@ function showTaskModal(row) {
 			}
 		</style>
 		<script>
-			$('.modal-footer .close-modal').on('click', function(event) {
+			$('.modal-footer .close-modal').on('click', async function(event) {
 				event.preventDefault();
 				let formData = new FormData(document.querySelector('.modal-body form'));
 
@@ -126,10 +126,26 @@ function showTaskModal(row) {
 				expiryDate.setSeconds(formData.get('seconds'));
 				expiryDate.setHours(formData.get('hours'));
 				expiryDate.setMinutes(formData.get('minutes'));
-				console.log(JSON.stringify(expiryDate));
-				if (expiryDate > new Date("${date}")) {\n
 
-					$('#task-modal').modal('hide');\n
+				if (expiryDate > new Date("${date}")) {\n
+					const body = JSON.stringify({
+							id: ${row.id},
+							expiry: expiryDate
+						});
+					const req = new Request('/api/set/timestamp', {
+						method: 'POST',
+						headers: new Headers({
+							'Content-Type': 'application/json'
+						}),
+						body: body
+					});
+					const res = await fetch(req);
+					if (res.ok) {
+						console.log('done');
+						$('#task-modal').modal('hide');\n
+					} else {
+						alert('There was a problem');
+					}
 				} else {\n
 					console.error('not possible');
 				}
