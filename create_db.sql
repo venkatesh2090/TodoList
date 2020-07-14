@@ -18,6 +18,7 @@ todo TEXT NOT NULL,
 is_done BOOLEAN DEFAULT FALSE,
 todo_group INTEGER NOT NULL,
 user_id INTEGER NOT NULL,
+expiry TIMESTAMP DEFAULT NULL,
 FOREIGN KEY (todo_group) REFERENCES todo_groups(id),
 FOREIGN KEY (user_id) REFERENCES todo_users (id));
 
