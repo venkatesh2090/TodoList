@@ -114,6 +114,17 @@ export async function getDefaultGroupId(userId) {
 	return await db.one(`SELECT MIN(id) FROM ${todoGroups} WHERE user_id = $1`, [userId]);
 }
 
+export async function updateTimestamp(userId, expiry, id) {
+	let res;
+	try {
+		res = await db.oneOrNone(`UPDATE ${todoTable} SET expiry = $2 WHERE user_id = $1 AND id = $3 RETURNING TRUE`, [userId, expiry, id]);
+	} catch (err) {
+		console.error(err);
+		return false;
+	}
+	return !(res == null);
+}
+
 export async function deleteGroup(userId, groupId) {
 	return db.tx({ mode: txMode }, t => {
 		return t.none(`DELETE FROM ${todoTable} WHERE user_id = $1 AND todo_group = $2`, [userId, groupId]).
