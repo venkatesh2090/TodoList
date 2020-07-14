@@ -106,15 +106,14 @@ function showTaskModal(row) {
 				justify-content: center;
 				align-items: center;
 			}
-			.modal-body form {
+			#modal-form {
 				display: flex;
 				flex-flow: column;
 				justify-content: center;
-				align-items: flex-start;
-			}
-			.modal-body form label {
-				align-self: center;
-				font-size: 1.5em;
+				align-items: center
+				width: 100%;
+				padding-left: 10%;
+				padding-right: 10%;
 			}
 			.notification-container {
 				display: flex;
@@ -125,12 +124,22 @@ function showTaskModal(row) {
 				display:none;
 				align-self: flex-start;
 			}
-			.form-row {
-				margin-bottom: 1em;
+			#modal-form .row {
+				padding-bottom: 1em;
+				flex-wrap: nowrap;
+			}
+			#modal-form .row label {
+				margin-bottom: 0;
+				align-self: center;
+				padding-right: 1em;
 			}
 		</style>
 		<script>
 			var expiryDate;
+
+			function validateExpiry() {
+				return expiryDate > new Date("${date}");
+			}
 
 			function hideNotifs() {
 				$('.notification-container small').css('display', 'none');
@@ -145,6 +154,11 @@ function showTaskModal(row) {
 				hideNotifs();
 				$('.notification-container .invalid').css('display', 'block');
 			}
+			
+			function oldExpiryNotif() {
+				hideNotifs();
+				$('.notification-container .invalid-old').css('display', 'block');
+			}
 
 			function missingNotif() {
 				hideNotifs();
@@ -155,23 +169,32 @@ function showTaskModal(row) {
 				event.preventDefault();
 				let formData = new FormData(document.querySelector('.modal-body form'));
 
-				if (formData.get('date') == "" || formData.get('minutes') == "" || formData.get('hours') == "" || formData.get('seconds') == "") {
-					missingNotif();
-					expiryDate = null;
+				let dateInput = document.querySelector('#modal-form input[type=date]');
+				let timeInput = document.querySelector('#modal-form input[type=time]');
+				if (dateInput.validity.valid && timeInput.validity.valid) {
+					expiryDate = new Date(formData.get('date'));
+
+					const time = formData.get('time');
+					const [hours, minutes] = time.split(':').map(e => new Number(e));
+
+					expiryDate.setHours(hours);
+					expiryDate.setMinutes(minutes);
+
+					if (validateExpiry()) {
+						validNotif();
+					} else {
+						oldExpiryNotif();
+						expiryDate = null;
+					}
 				}
 				else {
-					expiryDate = new Date(formData.get('date'));
-					expiryDate.setSeconds(formData.get('seconds'));
-					expiryDate.setHours(formData.get('hours'));
-					expiryDate.setMinutes(formData.get('minutes'));
-
-					console.log(expiryDate);
-					validNotif();
+					missingNotif();
+					expiryDate = null;
 				}
 			});\n
 			
 			async function sendExpiry() {
-				if (expiryDate > new Date("${date}")) {\n
+				if (validateExpiry()) {
 					const body = JSON.stringify({
 							id: ${row.id},
 							expiry: expiryDate
@@ -184,15 +207,13 @@ function showTaskModal(row) {
 						body: body
 					});
 					const res = await fetch(req);
-					if (res.ok) {
-						validNotif();
-					} else {
-						invalidNotif();
+					if (!res.ok) {
+						console.error("There was a server error. Couldn't update timestamp");
 					}
-				} else {\n
-					invalidNotif();
+				} else {
+					console.error('timestamp not sent');
 				}
-			}
+			};
 
 			$('#task-modal').on('hide.bs.modal', function(event) {
 				if (expiryDate)
@@ -206,22 +227,13 @@ function showTaskModal(row) {
 				</div>
 				<div class = "modal-body">
 					<form id = "modal-form">
-						<label for = "time">Expiry</label>
-						<div class = "form-row">
-							<div class = "col">
-								<input type = "number" placeholder = "Hours" name = "hours" min = "0" max = "23" class = "form-control" />
-							</div>
-							<div class = "col">
-								<input type = "number" placeholder = "Min" class = "form-control" name = "minutes" min = "0" max = "59" />
-							</div>
+						<div class = "row">
+							<label for = "time"> Time </label>
+							<input name = "time" type = "time" class = "form-control" required/>
 						</div>
-						<div class = "form-row w-100">
-							<div class = "col">
-								<input type = "number" placeholder = "Seconds" class = "form-control" name = "seconds" min = "0" max = "59" />
-							</div>
-							<div class = "col">
-								<input type = "date" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + (((date.getUTCDate() + 1) / 10 < 1 ? '0' : '') + (date.getUTCDate() + 1).toString())}" class = "form-control" name = "date"/>
-							</div>
+						<div class = "row">
+							<label for = "date"> Date </label>
+							<input type = "date" class = "form-control" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + ((date.getUTCDate() / 10 < 1 ? '0' : '') + date.getUTCDate().toString())}" name = "date" required/>
 						</div>
 					</form>
 				</div>
@@ -229,6 +241,7 @@ function showTaskModal(row) {
 					<div class = "notification-container">
 						<small class = "text-danger invalid">Couldn't add expiry</small>
 						<small class = "text-danger invalid-missing">Please fill everything</small>
+						<small class = "text-danger invalid-old">Choose a time in the future</small>
 						<small class = "text-primary valid">Saved expiry</small>
 					</div>
 					<button class = "btn close-modal btn-primary" type = "submit" form = "modal-form"> Save </button>
