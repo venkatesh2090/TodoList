@@ -116,19 +116,61 @@ function showTaskModal(row) {
 				align-self: center;
 				font-size: 1.5em;
 			}
+			.notification-container {
+				display: flex;
+				flex-flow: row;
+				flex-grow: 1;
+			}
+			.notification-container small {
+				display:none;
+				align-self: flex-start;
+			}
+			.form-row {
+				margin-bottom: 1em;
+			}
 		</style>
 		<script>
+			var expiryDate;
+
+			function hideNotifs() {
+				$('.notification-container small').css('display', 'none');
+			}
+
+			function validNotif() {
+				hideNotifs();
+				$('.notification-container .valid').css('display', 'block');
+			}
+
+			function invalidNotif() {
+				hideNotifs();
+				$('.notification-container .invalid').css('display', 'block');
+			}
+
+			function missingNotif() {
+				hideNotifs();
+				$('.notification-container .invalid-missing').css('display', 'block');
+			}
+			
 			$('#modal-form').on('submit', async function(event) {
 				event.preventDefault();
 				let formData = new FormData(document.querySelector('.modal-body form'));
 
-				let expiryDate = new Date(formData.get('date'));
-				expiryDate.setSeconds(formData.get('seconds'));
-				expiryDate.setHours(formData.get('hours'));
-				expiryDate.setMinutes(formData.get('minutes'));
+				if (formData.get('date') == "" || formData.get('minutes') == "" || formData.get('hours') == "" || formData.get('seconds') == "") {
+					missingNotif();
+					expiryDate = null;
+				}
+				else {
+					expiryDate = new Date(formData.get('date'));
+					expiryDate.setSeconds(formData.get('seconds'));
+					expiryDate.setHours(formData.get('hours'));
+					expiryDate.setMinutes(formData.get('minutes'));
 
-				console.log(expiryDate);
-				console.log(new Date("${date}"));
+					console.log(expiryDate);
+					validNotif();
+				}
+			});\n
+			
+			async function sendExpiry() {
 				if (expiryDate > new Date("${date}")) {\n
 					const body = JSON.stringify({
 							id: ${row.id},
@@ -143,14 +185,19 @@ function showTaskModal(row) {
 					});
 					const res = await fetch(req);
 					if (res.ok) {
-						console.log('done');
+						validNotif();
 					} else {
-						alert('There was a problem');
+						invalidNotif();
 					}
 				} else {\n
-					console.error('not possible');
+					invalidNotif();
 				}
-			});\n
+			}
+
+			$('#task-modal').on('hide.bs.modal', function(event) {
+				if (expiryDate)
+					sendExpiry();
+			});
 		</script>
 		<div class = "modal-dialog">
 			<div class = "modal-content">
@@ -160,30 +207,31 @@ function showTaskModal(row) {
 				<div class = "modal-body">
 					<form id = "modal-form">
 						<label for = "time">Expiry</label>
-						<div class = "form-group">
-							<div class = "form-row">
-								<div class = "col">
-									<input type = "number" placeholder = "Hours" name = "hours" min = "0" max = "23" class = "form-control" />
-								</div>
-								<div class = "col">
-									<input type = "number" placeholder = "Min" class = "form-control" name = "minutes" min = "0" max = "59" />
-								</div>
+						<div class = "form-row">
+							<div class = "col">
+								<input type = "number" placeholder = "Hours" name = "hours" min = "0" max = "23" class = "form-control" />
+							</div>
+							<div class = "col">
+								<input type = "number" placeholder = "Min" class = "form-control" name = "minutes" min = "0" max = "59" />
 							</div>
 						</div>
-						<div class = "form-group justify-content-between w-100">
-							<div class = "form-row w-100">
-								<div class = "col">
-									<input type = "number" placeholder = "Seconds" class = "form-control" name = "seconds" min = "0" max = "59" />
-								</div>
-								<div class = "col">
-									<input type = "date" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + (((date.getUTCDate() + 1) / 10 < 1 ? '0' : '') + (date.getUTCDate() + 1).toString())}" class = "form-control" name = "date"/>
-								</div>
+						<div class = "form-row w-100">
+							<div class = "col">
+								<input type = "number" placeholder = "Seconds" class = "form-control" name = "seconds" min = "0" max = "59" />
+							</div>
+							<div class = "col">
+								<input type = "date" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + (((date.getUTCDate() + 1) / 10 < 1 ? '0' : '') + (date.getUTCDate() + 1).toString())}" class = "form-control" name = "date"/>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class = "modal-footer">
-					<button class = "btn close-modal btn-secondary" type = "submit" form = "modal-form"> Save </button>
+					<div class = "notification-container">
+						<small class = "text-danger invalid">Couldn't add expiry</small>
+						<small class = "text-danger invalid-missing">Please fill everything</small>
+						<small class = "text-primary valid">Saved expiry</small>
+					</div>
+					<button class = "btn close-modal btn-primary" type = "submit" form = "modal-form"> Save </button>
 					<button class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
 				</div>
 			</div>
