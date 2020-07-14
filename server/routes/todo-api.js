@@ -5,10 +5,12 @@ import { deleteTask, insertTask, taskDone, deleteDone, insertGroup } from '../da
 import addRouter from './operations/add';
 import getRouter from './operations/get';
 import deleteRouter from './operations/delete';
+import setRouter from './operations/set';
 
 router.use('/add', addRouter);
 router.use('/get', getRouter);
 router.use('/delete', deleteRouter);
+router.use('/set', setRouter);
 
 router.get('/done/:id', async function (req, res, next) {
 	const userId = req.session.user;
