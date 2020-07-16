@@ -128,10 +128,15 @@ function showTaskModal(row) {
 				padding-bottom: 1em;
 				flex-wrap: nowrap;
 			}
-			#modal-form .row label {
+			#modal-form .row>label {
 				margin-bottom: 0;
 				align-self: center;
 				padding-right: 1em;
+				font-size: 1em;
+			}
+			#modal-form>label {
+				text-align: center;
+				font-size: 1.5em;
 			}
 		</style>
 		<script>
@@ -223,10 +228,11 @@ function showTaskModal(row) {
 		<div class = "modal-dialog">
 			<div class = "modal-content">
 				<div class = "modal-header">
-					<h5 class = "modal-title"> Click ${row.id} </h5>
+					<h5 class = "modal-title"> Settings </h5>
 				</div>
 				<div class = "modal-body">
 					<form id = "modal-form">
+						<label>Expiry</label>
 						<div class = "row">
 							<label for = "time"> Time </label>
 							<input name = "time" type = "time" class = "form-control" required/>
