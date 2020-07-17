@@ -6,4 +6,5 @@ RUN npm i
 COPY . .
 ENV PORT 8080
 ENV DATABASE_URL postgresql://postgres:trust@postgres:5432
+CMD ["npm", "run", "build"]
 CMD ["npm", "run", "start"]

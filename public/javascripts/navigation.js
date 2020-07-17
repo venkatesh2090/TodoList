@@ -2,16 +2,19 @@ document.querySelector('.navigationBar h3').onclick = function(event) {
 	window.location = '/';
 }
 
-document.querySelector('#login').onclick = function(event) {
-	window.location = '/login';
-}
-
-document.querySelector('.toggle-login').onclick = function(event) {
-	const loginContainer = document.querySelector('.login-container');
-	if (loginContainer.classList.contains('open')) {
-		loginContainer.classList.remove('open');
+if (window.innerWidth <= 420) {
+	document.querySelector('#login').onclick = function(event) {
+		window.location = '/login';
 	}
-	else {
-		loginContainer.classList.add('open');
+} else {
+	if ($('#logout').length == 0) {
+		$('.toggle-login').click(function(event) {
+			if ($('.login-container').hasClass('open')) {
+				$('.login-container').removeClass('open');
+			}
+			else {
+				$('.login-container').addClass('open');
+			}
+		});
 	}
 }

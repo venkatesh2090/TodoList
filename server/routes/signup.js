@@ -13,8 +13,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', async function (req, res, next) {
-	const isUser = await userExists(req.body.username).then(res => res.exists);
-	const isEmail = await emailExists(req.body.email).then(res => res.exists);
+	const isUser = await userExists(req.body.username);
+	const isEmail = await emailExists(req.body.email);
 
 	if (!isUser && !isEmail) {
 		await bcrypt.hash(req.body.password, saltRounds).then(async hash => {

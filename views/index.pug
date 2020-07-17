@@ -1,56 +1,57 @@
 extends layout
 
 block stylesheets
-	link(rel='stylesheet' href='/static/stylesheets/style.css')/
+  link(rel='stylesheet' href='/static/stylesheets/style.css')/
 
 block content
-	div.d-flex.flex-row
-		div#side-menu.h-100.d-flex.flex-column.align-items-center.py-2
-			form#list-form.container(method='')
-				div.form-group
-					input.form-control(name='group' type='text' placeholder='Name' required)
-				div.form-group
-					input.form-control.btn.btn-primary(type='submit' value='New List')
-			div#groups-container.d-flex.flex-column.align-items-center.container
-				each group in groupList
-					div.d-flex.flex-row.justify-content-between.align-items-center.w-100(gid= group.id)
-						p.mb-0= group.group_name
-						input.btn.btn-danger(type='button' value='X')
+  modals
+    div.modal.fade#confirmation(tab-index=-1 role='dialog')
+      div.modal-dialog
+        div.modal-content
+          h5.modal-header Are you sure
+          div.modal-body
+            span This list will be deleted permanently!
+          div.modal-footer
+            button.btn.btn-danger(data-dismiss='modal') Yes
+            button.btn.btn-secondary(data-dismiss='modal') No
 
-		div.container.d-flex.flex-column.align-items-center
-			div.modal.fade#confirmation(tab-index=-1 role='dialog')
-				div.modal-dialog
-					div.modal-content
-						h5.modal-header Are you sure
-						div.modal-body
-							span This list will be deleted permanently!
-						div.modal-footer
-							button.btn.btn-danger(data-dismiss='modal') Yes
-							button.btn.btn-secondary(data-dismiss='modal') No
+    div.modal.fade#warning(tab-index=-1 role='dialog')
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            h5.modal-title Sorry!
+          div.modal-body
+            span Could not delete this group. This group is currently active
+          div.modal-footer
+            button.btn.btn-secondary(data-dismiss='modal') OK
 
-			div.modal.fade#warning(tab-index=-1 role='dialog')
-				div.modal-dialog
-					div.modal-content
-						div.modal-header
-							h5.modal-title Sorry!
-						div.modal-body
-							span Could not delete this group. This group is currently active
-						div.modal-footer
-							button.btn.btn-secondary(data-dismiss='modal') OK
+  div.d-flex.flex-row
+    div#side-menu.h-100.d-flex.flex-column.align-items-center.py-2
+      form#list-form.container(method='')
+        div.form-group
+          input.form-control(name='group' type='text' placeholder='Name' required)
+        div.form-group
+          input.form-control.btn.btn-primary(type='submit' value='New List')
+      div#groups-container.d-flex.flex-column.align-items-center.container
+        each group in groupList
+          div.d-flex.flex-row.justify-content-between.align-items-center.w-100(gid= group.id)
+            p.mb-0= group.group_name
+            input.btn.btn-danger(type='button' value='X')
 
-			hr
-			div.w-100.d-flex.flex-column.align-items-center
-				form#task-form.align-items-start.d-flex.w-75.flex-column(name='task' method='POST')
-					input(type='hidden' name='gid')
-					label(for='task') Task
-					div.form-group.w-100.d-flex.flex-column.flex-sm-row.mb-2.mb-sm-3
-						input#task.form-control(type='text' name='task' placeholder='Do Something' required)
-						input#add-btn.btn.btn-primary(type='submit' value='Add Task')
-				div.w-75.d-flex.flex-column
-					input.remove.btn.btn-danger.d-block.d-sm-none(type='button' value='Remove')
-					div.remove.align-self-end.d-sm-flex.flex-column.align-items-center.d-none
-						div
-			div.w-75.container.flex-column.d-flex.pt-3.px-0#list-container
-	
+    div.container.d-flex.flex-column.align-items-center
+      hr
+      div.w-100.d-flex.flex-column.align-items-center
+        form#task-form.align-items-start.d-flex.w-75.flex-column(name='task' method='POST')
+          input(type='hidden' name='gid')
+          label(for='task') Task
+          div.form-group.w-100.d-flex.flex-column.flex-sm-row.mb-2.mb-sm-3
+            input#task.form-control(type='text' name='task' placeholder='Do Something' required)
+            input#add-btn.btn.btn-primary(type='submit' value='Add Task')
+        div.w-75.d-flex.flex-column
+          input.remove.btn.btn-danger.d-block.d-sm-none(type='button' value='Remove')
+          div.remove.align-self-end.d-sm-flex.flex-column.align-items-center.d-none
+            div
+      div.w-75.container.flex-column.d-flex.pt-3.px-0#list-container
+  
 block javascripts
-	script(src='/static/javascripts/todo.js')
+  script(src='/static/javascripts/todo.js')

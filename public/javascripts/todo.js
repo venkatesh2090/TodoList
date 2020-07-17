@@ -91,6 +91,180 @@ function addList(groupName) {
 	});
 }
 
+function showTaskModal(row) {
+	const modal = document.createElement('div');
+	modal.className = 'modal fade';
+	modal.setAttribute('tab-index', -1);
+	modal.setAttribute('id', 'task-modal');
+
+	const date = new Date();
+	modal.innerHTML = `
+		<style>
+			.modal-body {
+				display: flex;
+				flex-flow: column;
+				justify-content: center;
+				align-items: center;
+			}
+			#modal-form {
+				display: flex;
+				flex-flow: column;
+				justify-content: center;
+				align-items: center
+				width: 100%;
+				padding-left: 10%;
+				padding-right: 10%;
+			}
+			.notification-container {
+				display: flex;
+				flex-flow: row;
+				flex-grow: 1;
+			}
+			.notification-container small {
+				display:none;
+				align-self: flex-start;
+			}
+			#modal-form .row {
+				padding-bottom: 1em;
+				flex-wrap: nowrap;
+			}
+			#modal-form .row>label {
+				margin-bottom: 0;
+				align-self: center;
+				padding-right: 1em;
+				font-size: 1em;
+			}
+			#modal-form>label {
+				text-align: center;
+				font-size: 1.5em;
+			}
+		</style>
+		<script>
+			var expiryDate;
+
+			function validateExpiry() {
+				return expiryDate > new Date("${date}");
+			}
+
+			function hideNotifs() {
+				$('.notification-container small').css('display', 'none');
+			}
+
+			function validNotif() {
+				hideNotifs();
+				$('.notification-container .valid').css('display', 'block');
+			}
+
+			function invalidNotif() {
+				hideNotifs();
+				$('.notification-container .invalid').css('display', 'block');
+			}
+			
+			function oldExpiryNotif() {
+				hideNotifs();
+				$('.notification-container .invalid-old').css('display', 'block');
+			}
+
+			function missingNotif() {
+				hideNotifs();
+				$('.notification-container .invalid-missing').css('display', 'block');
+			}
+			
+			$('#modal-form').on('submit', async function(event) {
+				event.preventDefault();
+				let formData = new FormData(document.querySelector('.modal-body form'));
+
+				let dateInput = document.querySelector('#modal-form input[type=date]');
+				let timeInput = document.querySelector('#modal-form input[type=time]');
+				if (dateInput.validity.valid && timeInput.validity.valid) {
+					expiryDate = new Date(formData.get('date'));
+
+					const time = formData.get('time');
+					const [hours, minutes] = time.split(':').map(e => new Number(e));
+
+					expiryDate.setHours(hours);
+					expiryDate.setMinutes(minutes);
+
+					if (validateExpiry()) {
+						validNotif();
+					} else {
+						oldExpiryNotif();
+						expiryDate = null;
+					}
+				}
+				else {
+					missingNotif();
+					expiryDate = null;
+				}
+			});\n
+			
+			async function sendExpiry() {
+				if (validateExpiry()) {
+					const body = JSON.stringify({
+							id: ${row.id},
+							expiry: expiryDate
+						});
+					const req = new Request('/api/set/timestamp', {
+						method: 'POST',
+						headers: new Headers({
+							'Content-Type': 'application/json'
+						}),
+						body: body
+					});
+					const res = await fetch(req);
+					if (!res.ok) {
+						console.error("There was a server error. Couldn't update timestamp");
+					}
+				} else {
+					console.error('timestamp not sent');
+				}
+			};
+
+			$('#task-modal').on('hide.bs.modal', function(event) {
+				if (expiryDate)
+					sendExpiry();
+			});
+		</script>
+		<div class = "modal-dialog">
+			<div class = "modal-content">
+				<div class = "modal-header">
+					<h5 class = "modal-title"> Settings </h5>
+				</div>
+				<div class = "modal-body">
+					<form id = "modal-form">
+						<label>Expiry</label>
+						<div class = "row">
+							<label for = "time"> Time </label>
+							<input name = "time" type = "time" class = "form-control" required/>
+						</div>
+						<div class = "row">
+							<label for = "date"> Date </label>
+							<input type = "date" class = "form-control" min = "${date.getFullYear() + '-' + (((date.getUTCMonth() + 1) / 10 < 1 ? '0' : '') + (date.getUTCMonth() + 1).toString()) + '-' + ((date.getUTCDate() / 10 < 1 ? '0' : '') + date.getUTCDate().toString())}" name = "date" required/>
+						</div>
+					</form>
+				</div>
+				<div class = "modal-footer">
+					<div class = "notification-container">
+						<small class = "text-danger invalid">Couldn't add expiry</small>
+						<small class = "text-danger invalid-missing">Please fill everything</small>
+						<small class = "text-danger invalid-old">Choose a time in the future</small>
+						<small class = "text-primary valid">Saved expiry</small>
+					</div>
+					<button class = "btn close-modal btn-primary" type = "submit" form = "modal-form"> Save </button>
+					<button class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+				</div>
+			</div>
+		</div>
+	`;
+
+	$('modals').append(modal);
+	$(modal).modal('show');
+	$(modal).on('hidden.bs.modal', function(event) {
+		event.target.remove();
+	});
+}
+
+
 function renderTodos(data, groupId) {
 	const container = document.getElementById('list-container');
 
@@ -113,6 +287,9 @@ function renderTodos(data, groupId) {
 			const task = document.createElement('h4');
 			task.className = 'mb-0 my-2';
 			task.appendChild(document.createTextNode(row.todo));
+			task.onclick = function(event) {
+				showTaskModal(row);
+			}
 
 			element.appendChild(task);
 
