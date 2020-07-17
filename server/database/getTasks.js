@@ -70,18 +70,20 @@ export async function deleteDone(userId) {
 }
 
 export async function userIdExists(userId) {
-	return await db.one(`SELECT CASE WHEN COUNT(*) = 1 THEN TRUE ELSE FALSE END FROM todo_users WHERE id = $1`, [userId])
+	return await db.one(`SELECT CASE WHEN COUNT(*) = 1 THEN TRUE ELSE FALSE END FROM ${todoUsers} WHERE id = $1`, [userId])
 		.then(res => {
 			return res.case;
 		});
 }
 
 export async function userExists(username) {
-	return await db.one(`SELECT COUNT(*) = 1 AS exists FROM ${todoUsers} WHERE username = $1`, [username]);
+  let exists = await db.one(`SELECT CASE WHEN COUNT(*) = 1 THEN TRUE ELSE FALSE END FROM ${todoUsers} WHERE username = $1`, [username]);
+  return exists.case;
 }
 
-export async function emailExists(email) {
-	return await db.one(`SELECT COUNT(*) = 1 AS exists FROM ${todoUsers} WHERE email = $1`, [email]);
+export async function emailExists(email) { 
+  let exists = await db.one(`SELECT CASE WHEN COUNT(*) = 1 THEN TRUE ELSE FALSE END FROM ${todoUsers} WHERE email = $1`, [email]);
+  return exists.case;
 }
 
 export async function insertUser(username, password, email) {
