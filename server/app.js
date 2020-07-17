@@ -17,7 +17,6 @@ import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
 import signupRouter from './routes/signup';
 
-import { serveHTML } from './utils/serve';
 var app = express();
 
 export async function validateRequest(userId) {
