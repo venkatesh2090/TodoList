@@ -10,14 +10,17 @@ import compression from 'compression';
 
 import logger from 'morgan';
 
-import { userIdExists } from './database/getTasks';
+import { createTables, userIdExists } from './database/getTasks';
 import indexRouter from './routes/index';
 import apiRouter from './routes/todo-api';
 import loginRouter from './routes/login';
 import logoutRouter from './routes/logout';
 import signupRouter from './routes/signup';
+import sqlFile from '../create_db.sql';
 
 var app = express();
+
+var initialised = false;
 
 export async function validateRequest(userId) {
 	return await userIdExists(userId);
@@ -68,6 +71,15 @@ app.use(async function (req, res, next) {
 	}
 });
 app.use(compression());
+
+app.use(function (req, res, next) {
+	if (!initialised) {
+		initialised = true;
+
+		createTables(path.join(__dirname, sqlFile));
+	}
+	next();
+});
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
