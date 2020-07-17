@@ -76,7 +76,7 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
 app.use('/welcome', async function(req, res, next) {
-	res.send(await serveHTML('index'));
+	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // catch 404 and forward to error handler
